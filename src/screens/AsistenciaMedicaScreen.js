@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
 
 export default function ScreenAsistenciaMedica() {
 	return (
@@ -11,9 +11,9 @@ export default function ScreenAsistenciaMedica() {
 
 const style = StyleSheet.create({
 	container: {
-		backgroundColor: "#ffffff",
+		backgroundColor: '#ffffff',
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 });

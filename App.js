@@ -1,16 +1,17 @@
-import "react-native-gesture-handler";
-import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-
+import React, { useState, useEffect } from 'react';
+import 'react-native-gesture-handler';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AuthProvider } from './src/context/AuthContext';
+import { getVoucherApi } from './src/services/apiVoucher';
 import {
 	DefaultTheme,
 	Appbar,
 	Provider as PaperProvider,
-} from "react-native-paper";
-import MainTabScreen from "./src/MainTabScreen";
-import LoginScreen from "./src/LoginScreen";
+} from 'react-native-paper';
+import MainTabNavigation from './src/navigation/MainTabNavigation';
+import LoginScreen from './src/screens/LoginScreen';
 
 const Stack = createStackNavigator();
 
@@ -18,72 +19,55 @@ const theme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		primary: "#BE2E2D",
-		accent: "blue",
+		primary: '#BE2E2D',
+		accent: 'blue',
 	},
 };
 
-function CustomNavigationBar({ navigation, back }) {
+export default function App() {
+	useEffect(() => {
+		(async () => {
+			await loadVoucherApi('12345678');
+		})();
+	}, []);
+
+	const loadVoucherApi = async () => {
+		try {
+			const response = await getVoucherApi();
+			console.log('response: ', response);
+		} catch (error) {
+			console.log('error: ', error);
+		}
+	};
+
+	const [isSignedIn, setIsSignedIn] = useState(false);
+
 	return (
-		<Appbar.Header>
-			<Appbar.Content title='My awesome app' />
-		</Appbar.Header>
-	);
-}
-
-class App extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			isSignedIn: true,
-		};
-	}
-
-	render() {
-		return (
-			<PaperProvider theme={theme}>
-				<NavigationContainer>
-					{this.state.isSignedIn ? (
-						<Stack.Navigator>
-							<Stack.Screen
-								name='Loged in'
-								component={MainTabScreen}
-								options={{
-									title: "Mi Cobertura",
-									headerTintColor: "#ffffff",
-									headerStyle: {
-										backgroundColor: "#BE2E2D",
-									},
-								}}
-							/>
-						</Stack.Navigator>
+		<PaperProvider theme={theme}>
+			<NavigationContainer>
+				<AuthProvider>
+					{isSignedIn ? (
+						<MainTabNavigation />
 					) : (
-						<Stack.Navigator
-							screenOptions={{
-								header: (props) => <CustomNavigationBar {...props} />,
-							}}
-						>
+						<Stack.Navigator>
 							<Stack.Screen name='Login' component={LoginScreen} />
 						</Stack.Navigator>
 					)}
-				</NavigationContainer>
-			</PaperProvider>
-		);
-	}
+				</AuthProvider>
+			</NavigationContainer>
+		</PaperProvider>
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
 		fontSize: 14,
 	},
 	navigatorTab: {
 		fontSize: 50,
 	},
 });
-
-export default App;
