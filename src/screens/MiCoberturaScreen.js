@@ -1,10 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { Button } from 'react-native-paper';
+
+import { AuthContext } from '../context/AuthContext';
 
 export default function MiCoberturaScreen() {
+	const { signOut } = useContext(AuthContext);
 	return (
 		<View style={style.container}>
 			<Text>Mi CoberturaTab Screen</Text>
+			<Button onPress={() => signOut()}>singOut</Button>
 		</View>
 	);
 }

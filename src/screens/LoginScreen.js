@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	StyleSheet,
 	View,
 	Text,
 	TextInput,
+	Platform,
 	Button,
 	Keyboard,
 } from 'react-native';
@@ -16,73 +17,112 @@ import {
 	storageVoucherApi,
 	getDataStorage,
 } from '../services/apiVoucher';
+import { AuthContext } from '../context/AuthContext';
+import { Users } from '../model/users';
 
-export default function LoginScreen() {
-	const [error, setError] = useState('');
-	const { login } = useAuth();
-
-	console.log(useAuth());
-
-	const formik = useFormik({
-		initialValues: initialValues(),
-		validationSchema: Yup.object(validationSchema()),
-		validateOnChange: false,
-		onSubmit: (formValue) => {
-			setError('');
-			const { username, password } = formValue;
-
-			if (username !== user.username || password !== user.password) {
-				setError('El usuario o la contraseña no son correcto');
-			} else {
-				login(userDetails);
-			}
-		},
+export default function LoginScreen({ navigation }) {
+	const [data, setData] = React.useState({
+		username: '',
+		check_textInputChange: false,
+		secureTextEntry: true,
+		isValidUser: true,
 	});
+
+	const loginHandle = (userName) => {
+		console.log('LoginScreen / loginHandle :', userName);
+		const foundUser = Users.filter((item) => {
+			console.log('LoginScreen / item :', item);
+			console.log('LoginScreen / item :', userName == item.username);
+			return userName == item.username;
+		});
+		console.log('LoginScreen / foundUser :', foundUser);
+
+		if (data.username.length == 0) {
+			console.log(
+				'Wrong Input!',
+				'Username or password field cannot be empty.',
+				[{ text: 'Okay' }]
+			);
+			return;
+		}
+
+		if (foundUser.length == 0) {
+			console.log('Invalid User!', 'Username or password is incorrect.', [
+				{ text: 'Okay' },
+			]);
+			return;
+		}
+		signIn(foundUser);
+	};
+
+	const { signIn } = useContext(AuthContext);
+
+	const [error, setError] = useState('');
+
+	const textInputChange = (val) => {
+		if (val.trim().length >= 4) {
+			setData({
+				...data,
+				username: val,
+				check_textInputChange: true,
+				isValidUser: true,
+			});
+		} else {
+			setData({
+				...data,
+				username: val,
+				check_textInputChange: false,
+				isValidUser: false,
+			});
+		}
+	};
+
+	const updateSecureTextEntry = () => {
+		setData({
+			...data,
+			secureTextEntry: !data.secureTextEntry,
+		});
+	};
+
+	const handleValidUser = (val) => {
+		if (val.trim().length >= 4) {
+			setData({
+				...data,
+				isValidUser: true,
+			});
+		} else {
+			setData({
+				...data,
+				isValidUser: false,
+			});
+		}
+	};
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Iniciar sesión</Text>
 			<TextInput
-				placeholder='Nombre de usuario'
-				style={styles.input}
+				placeholder='Your Username'
+				placeholderTextColor='#666666'
+				style={[
+					styles.input,
+					{
+						// color: colors.text,
+					},
+				]}
 				autoCapitalize='none'
-				value={formik.values.username}
-				onChangeText={(text) => formik.setFieldValue('username', text)}
+				onChangeText={(val) => textInputChange(val)}
+				onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
 			/>
-			<TextInput
-				placeholder='Contraseña'
-				style={styles.input}
-				autoCapitalize='none'
-				secureTextEntry={true}
-				value={formik.values.password}
-				onChangeText={(text) => formik.setFieldValue('password', text)}
+
+			<Button
+				title='SING IN'
+				onPress={() => {
+					loginHandle(data.username);
+				}}
 			/>
-			{/* <Button title='Entrar' onPress={formik.handleSubmit} /> */}
-
-			<Button title='getVoucher' onPress={getVoucherApi} />
-			<Button title='storageVoucherApi' onPress={storageVoucherApi} />
-			<Button title='getDataStorage' onPress={getDataStorage} />
-
-			<Text style={styles.error}>{formik.errors.username}</Text>
-			<Text style={styles.error}>{formik.errors.password}</Text>
-
-			<Text style={styles.error}>{error}</Text>
 		</View>
 	);
-}
-
-function initialValues() {
-	return {
-		username: '',
-		password: '',
-	};
-}
-
-function validationSchema() {
-	return {
-		username: Yup.string().required('El usuario es obligatorio'),
-		password: Yup.string().required('La contraseña es obligatoria'),
-	};
 }
 
 const styles = StyleSheet.create({
@@ -105,6 +145,12 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		padding: 10,
 		borderRadius: 10,
+	},
+	textInput: {
+		flex: 1,
+		marginTop: Platform.OS === 'ios' ? 0 : -12,
+		paddingLeft: 10,
+		color: '#05375a',
 	},
 	error: {
 		textAlign: 'center',
