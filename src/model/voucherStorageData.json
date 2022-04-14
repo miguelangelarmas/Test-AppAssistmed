@@ -1,0 +1,257 @@
+{
+	"reservaId": "1003832",
+	"destino": "Multidestino",
+	"producto": {
+		"id": "37",
+		"nombre": "Orange"
+	},
+	"fechaEmision": "2022-01-18",
+	"fechaSalida": "2022-12-31",
+	"fechaRegreso": "2023-01-03",
+	"contactoEmergencia": {
+		"nombre": "test test",
+		"telefono": "1234632145"
+	},
+	"proveedor": {
+		"nombre": "World Medical Care",
+		"whatsappDesc": "DESDE TU WHATSAPP",
+		"whatsapp": "+54 9 11 2154 5997",
+		"internacionalDesc": "LLAMADO INTERNACIONAL",
+		"internacional": "+1 (305) 692-9009",
+		"wspTxtGenerico": "?text=Hola!%20Quiero%20hacer%20una%20consulta%20sobre%20mi%20asistencia.%20Mi%20número%20de%20reserva%20es%201003832"
+	},
+	"urlVoucher": "http://api-admin.assist-med.net/media/voucher/1009446.pdf",
+	"vouchers": [
+		{
+			"voucherId": 1009446,
+			"nombre": "test",
+			"apellido": "test",
+			"dni": "123456789",
+			"fechaNac": "1971-08-04",
+			"email": "ventas@assist-med.cl",
+			"nacionalidad": "test",
+			"telefono": "84561232"
+		}
+	],
+	"coberturas": [
+		{
+			"name": "ASISTENCIA MÉDICA POR ACCIDENTE",
+			"money": "USD",
+			"value": "80.000"
+		},
+		{
+			"name": "ASISTENCIA MÉDICA POR ENFERMEDAD",
+			"money": "USD",
+			"value": "80.000"
+		},
+		{
+			"name": "ASISTENCIA MÉDICA EN CASO DE PRE-EXISTENCIA",
+			"money": "USD",
+			"value": "650"
+		},
+		{
+			"name": "ASISTENCIA INTEGRAL COVID-19 (Incluido)",
+			"money": "USD",
+			"value": "30.000"
+		},
+		{
+			"name": "HOTEL POR CUARENTENA MÉDICA - COVID19 (Incluido)*",
+			"money": "USD",
+			"value": "2.000"
+		},
+		{
+			"name": "MEDICAMENTOS",
+			"money": null,
+			"value": "INCLUIDO "
+		},
+		{
+			"name": "ODONTOLOGÍA DE URGENCIA",
+			"money": "USD",
+			"value": "350"
+		},
+		{
+			"name": "GASTOS DE HOTEL POR CONVALECENCIA",
+			"money": "USD",
+			"value": "300"
+		},
+		{
+			"name": "GASTOS POR VUELO DEMORADO (min 6hs.) O CANCELADO",
+			"money": "USD",
+			"value": "400"
+		},
+		{
+			"name": "LATE ARRIVAL",
+			"money": "USD",
+			"value": "400"
+		},
+		{
+			"name": "CANCELACION DE VIAJE MULTI CAUSA",
+			"money": "USD",
+			"value": "2.000"
+		},
+		{
+			"name": "SPORTS",
+			"money": "USD",
+			"value": "10.000"
+		},
+		{
+			"name": "INDEMNIZACION POR EXTRAVÍO DE EQUIPAJE",
+			"money": "USD",
+			"value": "500"
+		},
+		{
+			"name": "COMPENSACIÓN POR DEMORA DE EQUIPAJE",
+			"money": "USD",
+			"value": "300"
+		},
+		{
+			"name": "ASISTENCIA EN CASO DE EXTRAVÍO DE DOCUMENTOS o EQUIPAJE",
+			"money": null,
+			"value": "INCLUIDO "
+		},
+		{
+			"name": "TRASLADO Y REPATRIACION SANITARIA",
+			"money": "USD",
+			"value": "80.000"
+		},
+		{
+			"name": "REPATRIACIÓN FUNERARIA",
+			"money": "USD",
+			"value": "80.000"
+		},
+		{
+			"name": "TRASLADO DE FAMILIAR POR HOSPITALIZACIÓN DEL BENEFICIARIO",
+			"money": null,
+			"value": "tkt aéreo + htl "
+		},
+		{
+			"name": "REGRESO ANTICIPADO POR FALLECIMIENTO FAMILIAR",
+			"money": null,
+			"value": "tkt aereo eco "
+		},
+		{
+			"name": "REGRESO ANTICIPADO POR SINIESTRO GRAVE EN EL DOMICILIO",
+			"money": null,
+			"value": "tkt aereo eco "
+		},
+		{
+			"name": "SUSTITUCIÓN DE EJECUTIVO",
+			"money": null,
+			"value": "INCLUIDO "
+		},
+		{
+			"name": "ACOMPAÑAMIENTO DE MENORES Y MAYORES",
+			"money": null,
+			"value": "INCLUIDO "
+		},
+		{
+			"name": "TRANSMISIÓN DE MENSAJES URGENTES",
+			"money": null,
+			"value": "INCLUIDO "
+		},
+		{
+			"name": "TRANSFERENCIA DE FONDOS",
+			"money": "USD",
+			"value": "1.000"
+		},
+		{
+			"name": "TRANSFERENCIA DE FONDOS PARA FIANZA LEGAL",
+			"money": "USD",
+			"value": "2.500"
+		},
+		{
+			"name": "ASISTENCIA LEGAL POR ACCIDENTE DE TRÁNSITO",
+			"money": "USD",
+			"value": "1.000"
+		},
+		{
+			"name": "SEGURO POR MUERTE ACCIDENTAL 24 HORAS",
+			"money": "USD",
+			"value": "5.000"
+		},
+		{
+			"name": "LIMITE DE EDAD",
+			"money": null,
+			"value": " 75"
+		}
+	],
+	"error": false,
+	"description": "Reserva/dni existe",
+	"days": 4,
+	"fechaFlexible": true,
+	"fechaLimite": "2023-01-18",
+	"phones": [
+		{
+			"phoneType": "whatsapp",
+			"icon": "logo-whatsapp",
+			"phone": "https://wa.me/+54 9 11 2154 5997?text=Hola!%20Quiero%20hacer%20una%20consulta%20sobre%20mi%20asistencia.%20Mi%20número%20de%20reserva%20es%201003832",
+			"key": "Desde tu whatsapp:",
+			"value": "+54 9 11 2154 5997"
+		},
+		{
+			"phoneType": "telefono",
+			"icon": "call",
+			"phone": "tel:+1 (305) 692-9009",
+			"key": "Teléfono de emergencia:",
+			"value": "+1 (305) 692-9009"
+		},
+		{
+			"phoneType": "telefono",
+			"icon": "logo-skype",
+			"phone": "#",
+			"key": "Skype:",
+			"value": "@Emergencias AM"
+		},
+		{
+			"phoneType": "telefono",
+			"icon": "mail",
+			"phone": "mailto:emergencias@assistmed.net",
+			"key": "E-Mail:",
+			"value": "emergencias@assistmed.net"
+		}
+	],
+	"mas": [
+		{
+			"icon": "book",
+			"key": "Condiciones Generales ",
+			"value": "https://www.assist-med.com.ar/condiciones-generales/"
+		},
+		{
+			"icon": "sync",
+			"key": "Quiero solicitar un reembolso",
+			"value": "https://wa.me/+54 9 11 2154 5997?text=Hola!%20Quiero%20solicitar%20un%20reembolso.%20Mi%20número%20de%20reserva%20es%201003832"
+		},
+		{
+			"icon": "airplane",
+			"key": "Perdí mi vuelo",
+			"value": "https://wa.me/+54 9 11 2154 5997?text=Hola!%20Perdí%20mi%20vuelo.%20Mi%20número%20de%20reserva%20es%201003832"
+		},
+		{
+			"icon": "briefcase",
+			"key": "Problemas con mi equipaje",
+			"value": "https://wa.me/+54 9 11 2154 5997?text=Hola!%20Tengo%20problemas%20con%20el%20equipaje.%20Mi%20número%20de%20reserva%20es%201003832"
+		},
+		{
+			"icon": "cloud-download",
+			"key": "Descargar el voucher en PDF",
+			"value": "http://api-admin.assist-med.net/media/voucher/1009446.pdf"
+		}
+	],
+	"notes": [
+		{
+			"icon": "checkbox-outline",
+			"key": "condiciones",
+			"value": "Antes de tomar cualquier iniciativa es imprescindible comunicarse a la central de emergencias DENTRO DE LAS 24hs de sucedido el evento."
+		},
+		{
+			"icon": "checkbox-outline",
+			"key": "condiciones",
+			"value": " LATE ARRIVAL: Es imprescindible notificar de este suceso el mismo día que sucede el late arrival para activar el servicio."
+		},
+		{
+			"icon": "checkbox-outline",
+			"key": "condiciones",
+			"value": "Los productos, servicios y vouchers NO son acumulables."
+		}
+	]
+}

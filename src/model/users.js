@@ -2,9 +2,9 @@ export const Users = [
 	{
 		id: 1,
 		email: 'user1@email.com',
-		username: 'a',
-		password: 'a',
-		userToken: 'a',
+		username: 'lala',
+		password: 'lala',
+		userToken: 'lala',
 	},
 	{
 		id: 2,

@@ -5,7 +5,8 @@ import {
 	Text,
 	TextInput,
 	Platform,
-	Button,
+	TouchableOpacity,
+	Image,
 	Keyboard,
 } from 'react-native';
 import { useFormik } from 'formik';
@@ -93,9 +94,16 @@ export default function LoginScreen({ navigation }) {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Iniciar sesión</Text>
+			<Image
+				style={styles.logo}
+				source={require('../../assets/Assistmed_HomeLogo.png')}
+			/>
+			<Text style={styles.title}>Hola viajero</Text>
+			<Text style={styles.subtitle}>
+				Esta es tu cobertura. Sólo te queda disfrutar.
+			</Text>
 			<TextInput
-				placeholder='Your Username'
+				placeholder='Ingrese su número de documento'
 				placeholderTextColor='#666666'
 				style={[
 					styles.input,
@@ -108,12 +116,14 @@ export default function LoginScreen({ navigation }) {
 				onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
 			/>
 
-			<Button
-				title='SING IN'
+			<TouchableOpacity
+				style={styles.button}
 				onPress={() => {
 					loginHandle(data.docNum);
 				}}
-			/>
+			>
+				<Text style={styles.buttonText}>Empezar</Text>
+			</TouchableOpacity>
 		</View>
 	);
 }
@@ -123,17 +133,34 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ffffff',
 		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'center',
+	},
+	button: {
+		backgroundColor: '#33569A',
+		padding: 10,
+		borderRadius: 5,
+	},
+	buttonText: {
+		color: '#ffffff',
+	},
+	logo: {
+		marginTop: 50,
+		width: 300,
+		height: 78,
 	},
 	title: {
-		textAlign: 'center',
-		fontSize: 28,
-		fontWeight: 'bold',
 		marginTop: 50,
-		marginBottom: 15,
+		fontSize: 28,
+		color: '#606060',
+	},
+	subtitle: {
+		fontSize: 17,
+		marginTop: 15,
+		marginBottom: 35,
+		color: '#606060',
 	},
 	input: {
-		height: 40,
+		borderColor: '#606060',
+		color: '#606060',
 		margin: 12,
 		borderWidth: 1,
 		padding: 10,

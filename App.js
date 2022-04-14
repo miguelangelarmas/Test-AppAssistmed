@@ -9,12 +9,14 @@ import { getVoucherApi } from './src/services/apiVoucher';
 import {
 	DefaultTheme,
 	Appbar,
+	TextInput,
 	Provider as PaperProvider,
 } from 'react-native-paper';
 import MainTabNavigation from './src/navigation/MainTabNavigation';
 import LoginScreen from './src/screens/LoginScreen';
 import react from 'react';
 import { AuthContext } from './src/context/AuthContext';
+import voucherStorageData from './src/model/voucherStorageData.json';
 
 const Stack = createStackNavigator();
 
@@ -22,14 +24,19 @@ const theme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		primary: '#BE2E2D',
-		accent: 'blue',
+		primary: '#A23330',
+		accent: '#06326B',
 	},
 };
+
+const dummyVoucherStorageData = JSON.parse(JSON.stringify(voucherStorageData));
 
 export default function App() {
 	// const [isLoading, setIsLoading] = useState(true);
 	// const [userToken, setUserToken] = useState(null);
+
+	// const voucherStorageData = voucherStorageData;
+	// console.log('voucherStorageData: ', voucherStorageData);
 
 	const initialLoginState = {
 		isLoading: true,
@@ -67,7 +74,10 @@ export default function App() {
 		initialLoginState
 	);
 
+	const [storageVoucher, setStorageVoucher] = useState(dummyVoucherStorageData);
+
 	const authDataContext = useMemo(() => ({
+		voucherStorageData: storageVoucher,
 		signIn: async (validResponse, responseDataApi) => {
 			console.log(
 				'%c App / responseDataApi: ',
@@ -78,8 +88,7 @@ export default function App() {
 
 			const authSignIn = validResponse;
 
-			// const userToken = String(foundUser[0].userToken);
-			// const userName = foundUser[0].username;
+			// setStorageVoucher(responseDataApi);
 
 			try {
 				await AsyncStorage.setItem('authSignIn', authSignIn);
@@ -119,26 +128,28 @@ export default function App() {
 
 	if (loginState.isLoading) {
 		return (
-			<View>
-				<Text>IS LOADING</Text>
-			</View>
+			<ActivityIndicator style={styles.loader} size='large' color='#33569A' />
 		);
 	}
 
 	return (
-		// <PaperProvider theme={theme}>
-		<AuthContext.Provider value={authDataContext}>
-			<NavigationContainer>
-				{loginState.authSignIn == 'si' ? (
-					<MainTabNavigation />
-				) : (
-					<Stack.Navigator>
-						<Stack.Screen name='Login' component={LoginScreen} />
-					</Stack.Navigator>
-				)}
-			</NavigationContainer>
-		</AuthContext.Provider>
-		// </PaperProvider>
+		<PaperProvider theme={theme}>
+			<AuthContext.Provider value={authDataContext}>
+				<NavigationContainer>
+					{loginState.authSignIn == 'si' ? (
+						<MainTabNavigation />
+					) : (
+						<Stack.Navigator
+							screenOptions={{
+								headerShown: false,
+							}}
+						>
+							<Stack.Screen name='Login' component={LoginScreen} />
+						</Stack.Navigator>
+					)}
+				</NavigationContainer>
+			</AuthContext.Provider>
+		</PaperProvider>
 	);
 }
 
@@ -152,5 +163,11 @@ const styles = StyleSheet.create({
 	},
 	navigatorTab: {
 		fontSize: 50,
+	},
+	loader: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#33569a1c',
 	},
 });
