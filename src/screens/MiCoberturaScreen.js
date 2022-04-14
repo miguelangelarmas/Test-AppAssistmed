@@ -5,10 +5,18 @@ import { Button } from 'react-native-paper';
 import { AuthContext } from '../context/AuthContext';
 
 export default function MiCoberturaScreen() {
-	const { signOut } = useContext(AuthContext);
+	const { infoDataStorage, signOut } = useContext(AuthContext);
+
+	console.log(
+		'%c MiCoberturaScreen / AuthContext: ',
+		'color: #478B20; background: #E7FFD9',
+		useContext(AuthContext)
+	);
+
 	return (
 		<View style={style.container}>
 			<Text>Mi CoberturaTab Screen</Text>
+			<Text>Info Data Storage: {infoDataStorage}</Text>
 			<Button onPress={() => signOut()}>singOut</Button>
 		</View>
 	);

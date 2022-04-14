@@ -22,37 +22,30 @@ import { Users } from '../model/users';
 
 export default function LoginScreen({ navigation }) {
 	const [data, setData] = React.useState({
-		username: '',
+		docNum: '',
 		check_textInputChange: false,
 		secureTextEntry: true,
 		isValidUser: true,
 	});
 
-	const loginHandle = (userName) => {
-		console.log('LoginScreen / loginHandle :', userName);
-		const foundUser = Users.filter((item) => {
-			console.log('LoginScreen / item :', item);
-			console.log('LoginScreen / item :', userName == item.username);
-			return userName == item.username;
-		});
-		console.log('LoginScreen / foundUser :', foundUser);
+	const loginHandle = async (docNum) => {
+		const responseDataApi = await getVoucherApi(docNum);
+		let validResponse = 'no';
 
-		if (data.username.length == 0) {
-			console.log(
-				'Wrong Input!',
-				'Username or password field cannot be empty.',
-				[{ text: 'Okay' }]
-			);
-			return;
+		if (responseDataApi.error === false) {
+			validResponse = 'si';
+		} else {
+			validResponse = 'no';
 		}
 
-		if (foundUser.length == 0) {
-			console.log('Invalid User!', 'Username or password is incorrect.', [
-				{ text: 'Okay' },
-			]);
-			return;
-		}
-		signIn(foundUser);
+		console.log(
+			'%c LoginScreen / loginHandle /responseDataApi : ',
+			'color: #136CBF; background: #D9E7F5',
+			responseDataApi,
+			validResponse
+		);
+
+		signIn(validResponse, responseDataApi);
 	};
 
 	const { signIn } = useContext(AuthContext);
@@ -63,14 +56,14 @@ export default function LoginScreen({ navigation }) {
 		if (val.trim().length >= 4) {
 			setData({
 				...data,
-				username: val,
+				docNum: val,
 				check_textInputChange: true,
 				isValidUser: true,
 			});
 		} else {
 			setData({
 				...data,
-				username: val,
+				docNum: val,
 				check_textInputChange: false,
 				isValidUser: false,
 			});
@@ -118,7 +111,7 @@ export default function LoginScreen({ navigation }) {
 			<Button
 				title='SING IN'
 				onPress={() => {
-					loginHandle(data.username);
+					loginHandle(data.docNum);
 				}}
 			/>
 		</View>

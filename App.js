@@ -33,8 +33,8 @@ export default function App() {
 
 	const initialLoginState = {
 		isLoading: true,
-		userName: null,
-		userToken: null,
+		authSignIn: '',
+		voucherData: [],
 	};
 
 	const loginReducer = (prevState, action) => {
@@ -42,21 +42,21 @@ export default function App() {
 			case 'RETRIEVE_TOKEN':
 				return {
 					...prevState,
-					userToken: action.token,
+					authSignIn: action.signIn,
 					isLoading: false,
+					voucherData: action.voucherData,
 				};
 			case 'LOGIN':
 				return {
 					...prevState,
-					userName: action.id,
-					userToken: action.token,
+					authSignIn: action.signIn,
 					isLoading: false,
+					voucherData: action.voucherData,
 				};
 			case 'LOGOUT':
 				return {
 					...prevState,
-					userName: null,
-					userToken: null,
+					authSignIn: null,
 					isLoading: false,
 				};
 		}
@@ -68,23 +68,34 @@ export default function App() {
 	);
 
 	const authDataContext = useMemo(() => ({
-		signIn: async (foundUser) => {
-			console.log('App / authDataContext: ', userName);
+		signIn: async (validResponse, responseDataApi) => {
+			console.log(
+				'%c App / responseDataApi: ',
+				'color: #AD23BE; background: #F2D9F5',
+				responseDataApi,
+				validResponse
+			);
 
-			const userToken = String(foundUser[0].userToken);
-			const userName = foundUser[0].username;
+			const authSignIn = validResponse;
+
+			// const userToken = String(foundUser[0].userToken);
+			// const userName = foundUser[0].username;
 
 			try {
-				await AsyncStorage.setItem('userToken', userToken);
+				await AsyncStorage.setItem('authSignIn', authSignIn);
 			} catch (e) {
 				console.log(e);
 			}
 
-			dispatch({ type: 'LOGIN', id: userName, token: userToken });
+			dispatch({
+				type: 'LOGIN',
+				signIn: authSignIn,
+				voucherData: responseDataApi,
+			});
 		},
 		signOut: async () => {
 			try {
-				await AsyncStorage.removeItem('userToken');
+				await AsyncStorage.removeItem('authSignIn');
 			} catch (e) {
 				console.log(e);
 			}
@@ -95,14 +106,14 @@ export default function App() {
 	useEffect(() => {
 		setTimeout(async () => {
 			// setIsLoading(false);
-			let userToken;
-			userToken = null;
+			let authSignIn;
+			authSignIn = '';
 			try {
-				userToken = await AsyncStorage.getItem('userToken');
+				authSignIn = await AsyncStorage.getItem('authSignIn');
 			} catch (error) {
 				console.log(error);
 			}
-			dispatch({ type: 'RETRIEVE_TOKEN', token: userToken });
+			dispatch({ type: 'RETRIEVE_TOKEN', signIn: authSignIn });
 		}, 1000);
 	}, []);
 
@@ -118,7 +129,7 @@ export default function App() {
 		// <PaperProvider theme={theme}>
 		<AuthContext.Provider value={authDataContext}>
 			<NavigationContainer>
-				{loginState.userToken != null ? (
+				{loginState.authSignIn == 'si' ? (
 					<MainTabNavigation />
 				) : (
 					<Stack.Navigator>
