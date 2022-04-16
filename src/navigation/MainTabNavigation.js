@@ -14,56 +14,41 @@ const Stack = createStackNavigator();
 
 function MiCoberturaNavigation() {
 	return (
-		<Stack.Navigator>
-			<Stack.Screen name='Mi cobertura' component={MiCoberturaScreen} />
-		</Stack.Navigator>
+		<MiCoberturaScreen />
+		// <Stack.Navigator>
+		// 	<Stack.Screen name='Mi cobertura' component={MiCoberturaScreen} />
+		// </Stack.Navigator>
 	);
 }
 function AsistenciaMedicaNavigation() {
 	return (
-		<Stack.Navigator>
-			<Stack.Screen
-				name='Asistencia médica'
-				component={AsistenciaMedicaScreen}
-			/>
-		</Stack.Navigator>
+		<AsistenciaMedicaScreen />
+		// <Stack.Navigator>
+		// 	<Stack.Screen
+		// 		name='Asistencia médica'
+		// 		component={AsistenciaMedicaScreen}
+		// 	/>
+		// </Stack.Navigator>
 	);
 }
 function FechasFlexiblesNavigation() {
 	return (
-		<Stack.Navigator>
-			<Stack.Screen name='Fechas flexibles' component={FechasFlexiblesScreen} />
-		</Stack.Navigator>
+		<FechasFlexiblesScreen />
+		// <Stack.Navigator>
+		// 	<Stack.Screen name='Fechas flexibles' component={FechasFlexiblesScreen} />
+		// </Stack.Navigator>
 	);
 }
 function PaperUIComponentsNavigation() {
-	return (
-		<Stack.Navigator>
-			<Stack.Screen name='Paper UI' component={PaperUIComponentsScreen} />
-		</Stack.Navigator>
-	);
+	return <PaperUIComponentsScreen />;
 }
 
 export default function MainTabNavigation(props) {
 	return (
 		<Tab.Navigator barStyle={styles.navigatorTab}>
 			<Tab.Screen
-				name='Asistencia Medica'
-				component={AsistenciaMedicaNavigation}
-				options={{
-					tabBarLabel: 'Asistencia Medica',
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons
-							name='card-account-phone'
-							color={color}
-							size={20}
-						/>
-					),
-				}}
-			/>
-			<Tab.Screen
 				style={styles.navigatorTab}
-				name='Mi Cobertura'
+				name='Cobertura'
 				component={MiCoberturaNavigation}
 				options={{
 					title: 'Mi Cobertura',
@@ -77,7 +62,21 @@ export default function MainTabNavigation(props) {
 				}}
 			/>
 			<Tab.Screen
-				name='Fechas Flexibles'
+				name='Asistencia'
+				component={AsistenciaMedicaNavigation}
+				options={{
+					tabBarLabel: 'Asistencia Medica',
+					tabBarIcon: ({ color, size }) => (
+						<MaterialCommunityIcons
+							name='card-account-phone'
+							color={color}
+							size={20}
+						/>
+					),
+				}}
+			/>
+			<Tab.Screen
+				name='Flexibles'
 				component={FechasFlexiblesNavigation}
 				options={{
 					tabBarLabel: 'Fechas Flexibles',
@@ -86,7 +85,7 @@ export default function MainTabNavigation(props) {
 					),
 				}}
 			/>
-			<Tab.Screen
+			{/* <Tab.Screen
 				name='Paper UI'
 				component={PaperUIComponentsNavigation}
 				options={{
@@ -95,7 +94,7 @@ export default function MainTabNavigation(props) {
 						<MaterialCommunityIcons name='autorenew' color={color} size={20} />
 					),
 				}}
-			/>
+			/> */}
 		</Tab.Navigator>
 	);
 }

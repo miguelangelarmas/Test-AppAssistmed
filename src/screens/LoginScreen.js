@@ -13,6 +13,8 @@ import {
 	Avatar,
 	Button,
 	Card,
+	Headline,
+	Subheading,
 	Title,
 	TextInput,
 	Paragraph,
@@ -106,27 +108,14 @@ export default function LoginScreen({ navigation }) {
 				style={styles.logo}
 				source={require('../../assets/Assistmed_HomeLogo.png')}
 			/>
-			<Text style={styles.title}>Hola viajero</Text>
-			<Text style={styles.subtitle}>
+			<Headline style={styles.title}>Hola viajer@</Headline>
+			<Subheading style={styles.subtitle}>
 				Esta es tu cobertura. Sólo te queda disfrutar.
-			</Text>
-			{/* <TextInput
-				placeholder='Ingrese su número de documento'
-				placeholderTextColor='#666666'
-				style={[
-					styles.input,
-					{
-						// color: colors.text,
-					},
-				]}
-				autoCapitalize='none'
-				onChangeText={(val) => textInputChange(val)}
-				onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
-			/> */}
+			</Subheading>
 
 			<TextInput
 				label='Ingrese número de documento'
-				mode={'outlined'}
+				mode={'flat'}
 				multiline={false}
 				style={styles.textInput}
 				value={data.docNum}
@@ -136,6 +125,7 @@ export default function LoginScreen({ navigation }) {
 			<Button
 				raised
 				mode={'contained'}
+				style={styles.button}
 				onPress={() => {
 					loginHandle(data.docNum);
 				}}
@@ -148,39 +138,20 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#ffffff',
+		backgroundColor: '#fcfcfc',
 		flex: 1,
 		padding: 20,
-	},
-	button: {
-		backgroundColor: '#33569A',
-		padding: 10,
-		borderRadius: 5,
-	},
-	buttonText: {
-		color: '#ffffff',
 	},
 	logo: {
 		marginTop: 50,
 		width: 300,
 		height: 78,
 	},
-	title: {
-		marginTop: 50,
-		fontSize: 28,
-		color: '#606060',
-	},
-	subtitle: {
-		fontSize: 17,
-		marginTop: 15,
-		marginBottom: 35,
-		color: '#606060',
-	},
+	title: { marginTop: 50 },
+	subtitle: { marginBottom: 50 },
 
-	textInput: {
-		// maxHeight: 45,
-		color: '#05375a',
-	},
+	textInput: { marginBottom: 15 },
+	button: { height: 35 },
 	error: {
 		textAlign: 'center',
 		color: '#f00',

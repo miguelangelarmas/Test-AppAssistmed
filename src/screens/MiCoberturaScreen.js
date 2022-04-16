@@ -1,5 +1,5 @@
-import { View, StyleSheet, FlatList } from 'react-native';
 import React, { useState, useContext } from 'react';
+import { View, StyleSheet, FlatList, ScrollView } from 'react-native';
 import {
 	DefaultTheme,
 	Avatar,
@@ -31,7 +31,7 @@ export default function MiCoberturaScreen() {
 	// ));
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container}>
 			<Card elevation={3} style={styles.card}>
 				{voucherStorageData.vouchers.map((voucher, key) => {
 					return (
@@ -58,20 +58,26 @@ export default function MiCoberturaScreen() {
 
 					<Separador />
 
-					<Text>Fecha de salida: {voucherStorageData.fechaSalida}</Text>
-					<Text>Fecha de regreso: {voucherStorageData.fechaRegreso}</Text>
-					<Text>Fecha de reserva: {voucherStorageData.fechaEmision}</Text>
+					<Paragraph>
+						Fecha de salida: {voucherStorageData.fechaSalida}
+					</Paragraph>
+					<Paragraph>
+						Fecha de regreso: {voucherStorageData.fechaRegreso}
+					</Paragraph>
+					<Paragraph>
+						Fecha de reserva: {voucherStorageData.fechaEmision}
+					</Paragraph>
 
 					<Separador />
 
-					<Text>
+					<Paragraph>
 						Contacto de emergencia:{'\n'}
 						{voucherStorageData.contactoEmergencia.nombre}
-					</Text>
-					<Text>
+					</Paragraph>
+					<Paragraph>
 						Teléfono de emergencia:{'\n'}
 						{voucherStorageData.contactoEmergencia.telefono}
-					</Text>
+					</Paragraph>
 				</Card.Content>
 			</Card>
 
@@ -83,13 +89,13 @@ export default function MiCoberturaScreen() {
 			/> */}
 
 			<Button onPress={() => signOut()}>Desloguearse</Button>
-		</View>
+		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#ffffff',
+		backgroundColor: '#fcfcfc',
 		flex: 1,
 		padding: 15,
 	},

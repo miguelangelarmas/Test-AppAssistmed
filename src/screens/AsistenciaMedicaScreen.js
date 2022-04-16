@@ -1,45 +1,91 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import {
 	DefaultTheme,
-	Subheading,
 	Appbar,
 	Text,
-	Title,
 	Card,
+	Title,
+	Subheading,
 	Divider,
 	Caption,
+	TouchableRipple,
 	Headline,
+	List,
+	IconButton,
 	Paragraph,
 } from 'react-native-paper';
 import { AuthContext } from '../context/AuthContext';
 
+const PhoneCard = (props) => {
+	const { phone } = props;
+
+	return (
+		<View style={{ flexDirection: 'row', marginTop: 10 }}>
+			<View style={{ flex: 4 }}>
+				<Text>{phone.key}</Text>
+				<Title>{phone.value}</Title>
+			</View>
+			<View style={{ flex: 1 }}>
+				<IconButton
+					style={{ backgroundColor: '#f7f7f7' }}
+					icon='whatsapp'
+					color={'green'}
+					size={25}
+				/>
+			</View>
+
+			{/* <List.Item
+				title={phone.value}
+				description={phone.key}
+				right={(props) => (
+					<List.Icon {...props} icon='whatsapp' color={'green'} size={80} />
+				)}
+			/> */}
+		</View>
+	);
+};
+
 export default function ScreenAsistenciaMedica() {
 	const { voucherStorageData } = useContext(AuthContext);
 
-	console.log(
-		'%c AsistenciaMedicaScreen / voucherStorageData: ',
-		'color: #478B20; background: #E7FFD9',
-		voucherStorageData
-	);
+	// console.log(
+	// 	'%c AsistenciaMedicaScreen / voucherStorageData: ',
+	// 	'color: #478B20; background: #E7FFD9',
+	// 	voucherStorageData
+	// );
 
 	// const MapParagraph = voucherStorageData.notes.map((paragraph) => (
 	// 	<Text>{paragraph.value}</Text>
 	// ));
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container}>
 			{/* <MapParagraph /> */}
-			<Card elevation={2}>
+			<Card elevation={2} style={styles.card}>
 				<Card.Content>
 					<Title>Procedimiento para el uso de tu asistencia</Title>
 
 					{voucherStorageData.notes.map((condition, i) => {
 						return (
-							<>
+							<View key={i}>
 								<Divider style={styles.divider}></Divider>
-								<Paragraph>{condition.value}</Paragraph>{' '}
-							</>
+								<Paragraph>{condition.value}</Paragraph>
+							</View>
+						);
+					})}
+				</Card.Content>
+			</Card>
+
+			<Card elevation={2} style={styles.card}>
+				<Card.Content>
+					<Title>Teléfonos</Title>
+
+					{voucherStorageData.phones.map((phone, i) => {
+						return (
+							<TouchableRipple key={i} onPress={() => console.log('Pressed')}>
+								<PhoneCard phone={phone} />
+							</TouchableRipple>
 						);
 					})}
 				</Card.Content>
@@ -48,35 +94,24 @@ export default function ScreenAsistenciaMedica() {
 			<Subheading>Subheading</Subheading>
 			<Text>Text</Text>
 			<Caption>Caption</Caption>
-		</View>
+		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#ffffff',
+		backgroundColor: '#fcfcfc',
 		flex: 1,
 		padding: 15,
 	},
-	mainTitle: {
-		fontSize: 24,
-		color: '#06326B',
+	card: {
+		marginBottom: 25,
+	},
+	separador: {
+		marginBottom: 10,
 	},
 	divider: {
 		marginTop: 5,
 		marginBottom: 5,
-	},
-	title: {
-		fontSize: 18,
-		color: '#06326B',
-	},
-	subTitle: {
-		fontWeight: 'bold',
-		fontSize: 18,
-		color: '#06326B',
-	},
-	paragraph: {
-		fontSize: 14,
-		color: '#06326B',
 	},
 });
