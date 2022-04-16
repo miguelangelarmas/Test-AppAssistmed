@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MiCoberturaScreen from '../screens/MiCoberturaScreen';
 import AsistenciaMedicaScreen from '../screens/AsistenciaMedicaScreen';
 import FechasFlexiblesScreen from '../screens/FechasFlexiblesScreen';
+import PaperUIComponentsScreen from '../screens/PaperUIComponentsScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -35,10 +36,31 @@ function FechasFlexiblesNavigation() {
 		</Stack.Navigator>
 	);
 }
+function PaperUIComponentsNavigation() {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen name='Paper UI' component={PaperUIComponentsScreen} />
+		</Stack.Navigator>
+	);
+}
 
 export default function MainTabNavigation(props) {
 	return (
 		<Tab.Navigator barStyle={styles.navigatorTab}>
+			<Tab.Screen
+				name='Asistencia Medica'
+				component={AsistenciaMedicaNavigation}
+				options={{
+					tabBarLabel: 'Asistencia Medica',
+					tabBarIcon: ({ color, size }) => (
+						<MaterialCommunityIcons
+							name='card-account-phone'
+							color={color}
+							size={20}
+						/>
+					),
+				}}
+			/>
 			<Tab.Screen
 				style={styles.navigatorTab}
 				name='Mi Cobertura'
@@ -55,24 +77,20 @@ export default function MainTabNavigation(props) {
 				}}
 			/>
 			<Tab.Screen
-				name='Asistencia Medica'
-				component={AsistenciaMedicaNavigation}
-				options={{
-					tabBarLabel: 'Asistencia Medica',
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons
-							name='card-account-phone'
-							color={color}
-							size={20}
-						/>
-					),
-				}}
-			/>
-			<Tab.Screen
 				name='Fechas Flexibles'
 				component={FechasFlexiblesNavigation}
 				options={{
 					tabBarLabel: 'Fechas Flexibles',
+					tabBarIcon: ({ color, size }) => (
+						<MaterialCommunityIcons name='autorenew' color={color} size={20} />
+					),
+				}}
+			/>
+			<Tab.Screen
+				name='Paper UI'
+				component={PaperUIComponentsNavigation}
+				options={{
+					tabBarLabel: 'Paper UI',
 					tabBarIcon: ({ color, size }) => (
 						<MaterialCommunityIcons name='autorenew' color={color} size={20} />
 					),

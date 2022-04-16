@@ -22,10 +22,30 @@ const Stack = createStackNavigator();
 
 const theme = {
 	...DefaultTheme,
+	customText: {
+		mainTitle: {
+			fontSize: 24,
+			color: '#06326B',
+		},
+		title: {
+			fontSize: 18,
+			color: '#06326B',
+		},
+		subTitle: {
+			fontWeight: 'bold',
+			fontSize: 18,
+			color: '#06326B',
+		},
+		paragraph: {
+			fontSize: 14,
+			color: '#06326B',
+		},
+	},
 	colors: {
 		...DefaultTheme.colors,
-		primary: '#A23330',
-		accent: '#06326B',
+		primary: '#33569A',
+		accent: '#A23330',
+		text: '#424242',
 	},
 };
 

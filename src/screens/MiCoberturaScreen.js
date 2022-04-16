@@ -1,6 +1,15 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import React, { useState, useContext } from 'react';
-import { Button } from 'react-native-paper';
+import {
+	DefaultTheme,
+	Avatar,
+	Text,
+	Button,
+	Card,
+	Title,
+	Paragraph,
+	Divider,
+} from 'react-native-paper';
 
 import { AuthContext } from '../context/AuthContext';
 import CardWithTitle from '../components/CardTitle';
@@ -9,60 +18,85 @@ import ItemsList from '../components/ItemsList';
 export default function MiCoberturaScreen() {
 	const { voucherStorageData, signOut } = useContext(AuthContext);
 
-	const coberturas = [
-		{
-			name: 'ASISTENCIA MÉDICA POR ACCIDENTE',
-			money: 'USD',
-			value: '80.000',
-		},
-		{
-			name: 'ASISTENCIA MÉDICA POR ENFERMEDAD',
-			money: 'USD',
-			value: '80.000',
-		},
-		{
-			name: 'ASISTENCIA MÉDICA EN CASO DE PRE-EXISTENCIA',
-			money: 'USD',
-			value: '650',
-		},
-	];
+	// console.log(
+	// 	'%c MiCoberturaScreen / AuthContext: ',
+	// 	'color: #478B20; background: #E7FFD9',
+	// 	voucherStorageData
+	// );
 
-	console.log(
-		'%c MiCoberturaScreen / AuthContext: ',
-		'color: #478B20; background: #E7FFD9',
-		voucherStorageData.coberturas
-	);
+	const LeftContent = (props) => <Avatar.Icon {...props} icon='folder' />;
+	const Separador = () => <View style={styles.separador}></View>;
+	// const cardInsideContent = voucherStorageData.vouchers.map((voucher) => (
+	// 	<Text>{paragraph.value}</Text>
+	// ));
 
 	return (
-		<View style={style.container}>
-			<Text>Vouchers</Text>
-			<Text>Nº DE VOUCHER: {voucherStorageData.description}</Text>
-			{/* <Text>nombre {infoDataStorage}</Text>
-			<Text>Documento: {infoDataStorage}</Text> */}
+		<View style={styles.container}>
+			<Card elevation={3} style={styles.card}>
+				{voucherStorageData.vouchers.map((voucher, key) => {
+					return (
+						<View key={key}>
+							<Card.Title title='Vouchers' subtitle='' left={LeftContent} />
+							<Card.Content>
+								<Divider />
+								<Title>{`Nº de Voucher: ${voucher.voucherId}`}</Title>
+								<Paragraph>
+									{voucher.nombre} {voucher.apellido}
+								</Paragraph>
+								<Paragraph>Documento: {voucher.dni}</Paragraph>
+							</Card.Content>
+						</View>
+					);
+				})}
+			</Card>
+			<Card elevation={3}>
+				<Card.Title title='Cobertura' subtitle='' left={LeftContent} />
+				<Card.Content>
+					<Divider />
+					<Title>{voucherStorageData.producto.nombre}</Title>
+					<Paragraph>{voucherStorageData.destino}</Paragraph>
 
-			{/* <FlatList
-				data={voucherStorageData.coberturas}
-				renderItem={({ item }) => <Text>{item.name}</Text>}
-			/> */}
+					<Separador />
 
-			{/* <CardWithTitle data={voucherStorageData.coberturas} /> */}
-			{/* <CardWithTitle data={voucherStorageData.coberturas} /> */}
+					<Text>Fecha de salida: {voucherStorageData.fechaSalida}</Text>
+					<Text>Fecha de regreso: {voucherStorageData.fechaRegreso}</Text>
+					<Text>Fecha de reserva: {voucherStorageData.fechaEmision}</Text>
 
-			<ItemsList
+					<Separador />
+
+					<Text>
+						Contacto de emergencia:{'\n'}
+						{voucherStorageData.contactoEmergencia.nombre}
+					</Text>
+					<Text>
+						Teléfono de emergencia:{'\n'}
+						{voucherStorageData.contactoEmergencia.telefono}
+					</Text>
+				</Card.Content>
+			</Card>
+
+			{/* <CardWithTitle title={'Detalle de Cobertura'} /> */}
+
+			{/* <ItemsList
 				data={voucherStorageData.coberturas}
 				title={'Detalle de Cobertura'}
-			/>
+			/> */}
 
-			<Button onPress={() => signOut()}>singOut</Button>
+			<Button onPress={() => signOut()}>Desloguearse</Button>
 		</View>
 	);
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#ffffff',
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
+		padding: 15,
+	},
+	card: {
+		marginBottom: 25,
+	},
+	separador: {
+		marginBottom: 10,
 	},
 });

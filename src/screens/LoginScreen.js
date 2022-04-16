@@ -2,13 +2,21 @@ import React, { useState, useContext } from 'react';
 import {
 	StyleSheet,
 	View,
-	Text,
-	TextInput,
 	Platform,
 	TouchableOpacity,
 	Image,
 	Keyboard,
 } from 'react-native';
+import {
+	Text,
+	DefaultTheme,
+	Avatar,
+	Button,
+	Card,
+	Title,
+	TextInput,
+	Paragraph,
+} from 'react-native-paper';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { user, userDetails } from '../utils/userDB';
@@ -102,7 +110,7 @@ export default function LoginScreen({ navigation }) {
 			<Text style={styles.subtitle}>
 				Esta es tu cobertura. Sólo te queda disfrutar.
 			</Text>
-			<TextInput
+			{/* <TextInput
 				placeholder='Ingrese su número de documento'
 				placeholderTextColor='#666666'
 				style={[
@@ -114,16 +122,26 @@ export default function LoginScreen({ navigation }) {
 				autoCapitalize='none'
 				onChangeText={(val) => textInputChange(val)}
 				onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+			/> */}
+
+			<TextInput
+				label='Ingrese número de documento'
+				mode={'outlined'}
+				multiline={false}
+				style={styles.textInput}
+				value={data.docNum}
+				onChangeText={(val) => textInputChange(val)}
 			/>
 
-			<TouchableOpacity
-				style={styles.button}
+			<Button
+				raised
+				mode={'contained'}
 				onPress={() => {
 					loginHandle(data.docNum);
 				}}
 			>
-				<Text style={styles.buttonText}>Empezar</Text>
-			</TouchableOpacity>
+				Empezar
+			</Button>
 		</View>
 	);
 }
@@ -132,7 +150,7 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#ffffff',
 		flex: 1,
-		alignItems: 'center',
+		padding: 20,
 	},
 	button: {
 		backgroundColor: '#33569A',
@@ -158,18 +176,9 @@ const styles = StyleSheet.create({
 		marginBottom: 35,
 		color: '#606060',
 	},
-	input: {
-		borderColor: '#606060',
-		color: '#606060',
-		margin: 12,
-		borderWidth: 1,
-		padding: 10,
-		borderRadius: 10,
-	},
+
 	textInput: {
-		flex: 1,
-		marginTop: Platform.OS === 'ios' ? 0 : -12,
-		paddingLeft: 10,
+		// maxHeight: 45,
 		color: '#05375a',
 	},
 	error: {
