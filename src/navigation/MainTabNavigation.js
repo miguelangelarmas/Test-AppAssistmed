@@ -1,8 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {
+	NavigationContainer,
+	getFocusedRouteNameFromRoute,
+} from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { create } from '@react-navigation/material-bottom-tabs';
+// import { Drawer } from 'react-native-paper';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MiCoberturaScreen from '../screens/MiCoberturaScreen';
 import AsistenciaMedicaScreen from '../screens/AsistenciaMedicaScreen';
@@ -11,6 +16,19 @@ import PaperUIComponentsScreen from '../screens/PaperUIComponentsScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function getHeaderTitle(route) {
+	const routeName = getFocusedRouteNameFromRoute(route) ?? 'Assistmed';
+	switch (routeName) {
+		case 'Cobertura':
+			return 'Mi Cobertura';
+		case 'Asistencia':
+			return 'Asistencia Medica';
+		case 'Flexibles':
+			return 'Fechas Flexibles';
+	}
+}
 
 function MiCoberturaNavigation() {
 	return (
@@ -39,11 +57,8 @@ function FechasFlexiblesNavigation() {
 		// </Stack.Navigator>
 	);
 }
-function PaperUIComponentsNavigation() {
-	return <PaperUIComponentsScreen />;
-}
 
-export default function MainTabNavigation(props) {
+function TabsNavigator() {
 	return (
 		<Tab.Navigator barStyle={styles.navigatorTab}>
 			<Tab.Screen
@@ -86,16 +101,43 @@ export default function MainTabNavigation(props) {
 				}}
 			/>
 			{/* <Tab.Screen
-				name='Paper UI'
-				component={PaperUIComponentsNavigation}
-				options={{
-					tabBarLabel: 'Paper UI',
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons name='autorenew' color={color} size={20} />
-					),
-				}}
-			/> */}
+		name='Paper UI'
+		component={PaperUIComponentsNavigation}
+		options={{
+			tabBarLabel: 'Paper UI',
+			tabBarIcon: ({ color, size }) => (
+				<MaterialCommunityIcons name='autorenew' color={color} size={20} />
+			),
+		}}
+	/> */}
 		</Tab.Navigator>
+	);
+}
+
+function PaperUIComponentsNavigation() {
+	return <PaperUIComponentsScreen />;
+}
+
+export default function MainTabNavigation(props) {
+	return (
+		<>
+			<Stack.Navigator
+				screenOptions={{
+					headerStyle: {
+						backgroundColor: '#BE2E2D',
+					},
+					headerTintColor: '#fff',
+				}}
+			>
+				<Stack.Screen
+					name='Mi cobertura'
+					component={TabsNavigator}
+					options={({ route }) => ({
+						headerTitle: getHeaderTitle(route),
+					})}
+				/>
+			</Stack.Navigator>
+		</>
 	);
 }
 

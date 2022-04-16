@@ -7,7 +7,10 @@ import {
 	getFocusedRouteNameFromRoute,
 } from '@react-navigation/native';
 
+import MainTabNavigation from './src/navigation/MainTabNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
 import { AuthProvider } from './src/context/AuthContext';
 import { getVoucherApi } from './src/services/apiVoucher';
 import {
@@ -16,13 +19,14 @@ import {
 	TextInput,
 	Provider as PaperProvider,
 } from 'react-native-paper';
-import MainTabNavigation from './src/navigation/MainTabNavigation';
 import LoginScreen from './src/screens/LoginScreen';
 import react from 'react';
 import { AuthContext } from './src/context/AuthContext';
 import voucherStorageData from './src/model/voucherStorageData.json';
+import MenuScreen from './src/screens/MenuScreen';
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const theme = {
 	...DefaultTheme,
@@ -54,22 +58,6 @@ const theme = {
 };
 
 const dummyVoucherStorageData = JSON.parse(JSON.stringify(voucherStorageData));
-
-function getHeaderTitle(route) {
-	// If the focused route is not found, we need to assume it's the initial screen
-	// This can happen during if there hasn't been any navigation inside the screen
-	// In our case, it's "Feed" as that's the first screen inside the navigator
-	const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
-
-	switch (routeName) {
-		case 'Asistencia':
-			return 'Asistencia Medica';
-		case 'Cobertura':
-			return 'Mi Cobertura';
-		case 'Flexibles':
-			return 'Fechas Flexibles';
-	}
-}
 
 export default function App() {
 	// const [isLoading, setIsLoading] = useState(true);
@@ -177,22 +165,11 @@ export default function App() {
 			<AuthContext.Provider value={authDataContext}>
 				<NavigationContainer>
 					{loginState.authSignIn == 'si' ? (
-						<Stack.Navigator
-							screenOptions={{
-								headerStyle: {
-									backgroundColor: '#BE2E2D',
-								},
-								headerTintColor: '#fff',
-							}}
+						<Drawer.Navigator
+							drawerContent={() => <MenuScreen menu={storageVoucher} />}
 						>
-							<Stack.Screen
-								name='Mi cobertura'
-								component={MainTabNavigation}
-								options={({ route }) => ({
-									headerTitle: getHeaderTitle(route),
-								})}
-							/>
-						</Stack.Navigator>
+							<Drawer.Screen name='Home' component={MainTabNavigation} />
+						</Drawer.Navigator>
 					) : (
 						<Stack.Navigator
 							screenOptions={{
