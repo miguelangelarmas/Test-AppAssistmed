@@ -64,7 +64,6 @@ export default function App() {
 	// const [userToken, setUserToken] = useState(null);
 
 	// const voucherStorageData = voucherStorageData;
-	// console.log('voucherStorageData: ', voucherStorageData);
 
 	const initialLoginState = {
 		isLoading: true,
@@ -107,12 +106,12 @@ export default function App() {
 	const authDataContext = useMemo(() => ({
 		voucherStorageData: storageVoucher,
 		signIn: async (validResponse, responseDataApi) => {
-			console.log(
-				'%c App / responseDataApi: ',
-				'color: #AD23BE; background: #F2D9F5',
-				responseDataApi,
-				validResponse
-			);
+			// console.log(
+			// 	'%c App / responseDataApi: ',
+			// 	'color: #AD23BE; background: #F2D9F5',
+			// 	responseDataApi,
+			// 	validResponse
+			// );
 
 			const authSignIn = validResponse;
 

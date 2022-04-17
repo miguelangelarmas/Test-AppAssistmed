@@ -12,10 +12,8 @@ import {
 } from 'react-native-paper';
 
 import { AuthContext } from '../context/AuthContext';
-import CardWithTitle from '../components/CardTitle';
-import ItemsList from '../components/ItemsList';
 
-export default function MiCoberturaScreen() {
+export default function MiCoberturaVouchersScreen() {
 	const { voucherStorageData, signOut } = useContext(AuthContext);
 
 	// console.log(
@@ -26,9 +24,6 @@ export default function MiCoberturaScreen() {
 
 	const LeftContent = (props) => <Avatar.Icon {...props} icon='folder' />;
 	const Separador = () => <View style={styles.separador}></View>;
-	// const cardInsideContent = voucherStorageData.vouchers.map((voucher) => (
-	// 	<Text>{paragraph.value}</Text>
-	// ));
 
 	return (
 		<ScrollView style={styles.container}>
@@ -80,13 +75,6 @@ export default function MiCoberturaScreen() {
 					</Paragraph>
 				</Card.Content>
 			</Card>
-
-			{/* <CardWithTitle title={'Detalle de Cobertura'} /> */}
-
-			{/* <ItemsList
-				data={voucherStorageData.coberturas}
-				title={'Detalle de Cobertura'}
-			/> */}
 
 			<Button onPress={() => signOut()}>Desloguearse</Button>
 		</ScrollView>

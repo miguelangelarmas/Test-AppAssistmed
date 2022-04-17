@@ -9,10 +9,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 // import { Drawer } from 'react-native-paper';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import MiCoberturaScreen from '../screens/MiCoberturaScreen';
 import AsistenciaMedicaScreen from '../screens/AsistenciaMedicaScreen';
 import FechasFlexiblesScreen from '../screens/FechasFlexiblesScreen';
 import PaperUIComponentsScreen from '../screens/PaperUIComponentsScreen';
+import CustomTopTabs from './CustomTopTabs';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -30,41 +30,13 @@ function getHeaderTitle(route) {
 	}
 }
 
-function MiCoberturaNavigation() {
-	return (
-		<MiCoberturaScreen />
-		// <Stack.Navigator>
-		// 	<Stack.Screen name='Mi cobertura' component={MiCoberturaScreen} />
-		// </Stack.Navigator>
-	);
-}
-function AsistenciaMedicaNavigation() {
-	return (
-		<AsistenciaMedicaScreen />
-		// <Stack.Navigator>
-		// 	<Stack.Screen
-		// 		name='Asistencia médica'
-		// 		component={AsistenciaMedicaScreen}
-		// 	/>
-		// </Stack.Navigator>
-	);
-}
-function FechasFlexiblesNavigation() {
-	return (
-		<FechasFlexiblesScreen />
-		// <Stack.Navigator>
-		// 	<Stack.Screen name='Fechas flexibles' component={FechasFlexiblesScreen} />
-		// </Stack.Navigator>
-	);
-}
-
 function TabsNavigator() {
 	return (
 		<Tab.Navigator barStyle={styles.navigatorTab}>
 			<Tab.Screen
 				style={styles.navigatorTab}
 				name='Cobertura'
-				component={MiCoberturaNavigation}
+				component={CustomTopTabs}
 				options={{
 					title: 'Mi Cobertura',
 					tabBarIcon: ({ color, size }) => (
@@ -78,7 +50,7 @@ function TabsNavigator() {
 			/>
 			<Tab.Screen
 				name='Asistencia'
-				component={AsistenciaMedicaNavigation}
+				component={AsistenciaMedicaScreen}
 				options={{
 					tabBarLabel: 'Asistencia Medica',
 					tabBarIcon: ({ color, size }) => (
@@ -92,7 +64,7 @@ function TabsNavigator() {
 			/>
 			<Tab.Screen
 				name='Flexibles'
-				component={FechasFlexiblesNavigation}
+				component={FechasFlexiblesScreen}
 				options={{
 					tabBarLabel: 'Fechas Flexibles',
 					tabBarIcon: ({ color, size }) => (
@@ -144,10 +116,7 @@ export default function MainTabNavigation(props) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-		fontSize: 14,
+		backgroundColor: '#fcfcfc',
 	},
 	navigatorTab: {
 		backgroundColor: '#BE2E2D',
