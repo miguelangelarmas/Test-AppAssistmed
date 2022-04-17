@@ -24,30 +24,28 @@ export default function MenuScreen(props) {
 	} = props;
 	console.log('menuItems', mas);
 	return (
-		<DrawerContentScrollView>
-			<View>
-				<View style={styles.header}>
-					<Text style={styles.headerText}>Menu</Text>
-				</View>
-				{mas.map((item, i) => {
-					return (
-						<Drawer.Item
-							key={i}
-							icon={item.icon}
-							label={item.key}
-							onPress={() => {}}
-						/>
-					);
-				})}
-				<Divider></Divider>
-				<Drawer.Item
-					style={styles.logoutButton}
-					icon='exit-to-app'
-					label='Cerrar sesion'
-					onPress={() => signOut()}
-				/>
+		<View>
+			<View style={styles.header}>
+				<Text style={styles.headerText}>Menu</Text>
 			</View>
-		</DrawerContentScrollView>
+			{mas.map((item, i) => {
+				return (
+					<Drawer.Item
+						key={i}
+						icon={item.icon}
+						label={item.key}
+						onPress={() => {}}
+					/>
+				);
+			})}
+			<Divider></Divider>
+			<Drawer.Item
+				style={styles.logoutButton}
+				icon='exit-to-app'
+				label='Cerrar sesion'
+				onPress={() => signOut()}
+			/>
+		</View>
 	);
 }
 

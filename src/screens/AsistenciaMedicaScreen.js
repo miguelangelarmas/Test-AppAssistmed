@@ -90,10 +90,6 @@ export default function ScreenAsistenciaMedica() {
 					})}
 				</Card.Content>
 			</Card>
-
-			<Subheading>Subheading</Subheading>
-			<Text>Text</Text>
-			<Caption>Caption</Caption>
 		</ScrollView>
 	);
 }
