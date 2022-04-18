@@ -49,6 +49,7 @@ export default function LoginScreen({ navigation }) {
 			validResponse = 'si';
 		} else {
 			validResponse = 'no';
+			setError(true);
 		}
 
 		console.log(
@@ -63,7 +64,7 @@ export default function LoginScreen({ navigation }) {
 
 	const { signIn } = useContext(AuthContext);
 
-	const [error, setError] = useState('');
+	const [error, setError] = useState(false);
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const textInputChange = (val) => {
@@ -136,6 +137,11 @@ export default function LoginScreen({ navigation }) {
 			>
 				Empezar
 			</Button>
+			{error && (
+				<Text style={styles.error}>
+					No encontramos cobertura asociada al número de documento
+				</Text>
+			)}
 		</View>
 	);
 }
@@ -157,7 +163,7 @@ const styles = StyleSheet.create({
 	button: { height: 35 },
 	error: {
 		textAlign: 'center',
-		color: '#f00',
+		color: '#DE481E',
 		marginTop: 20,
 	},
 });
