@@ -4,8 +4,8 @@ import { VOUCHER_STORAGE } from '../utils/constants';
 
 export async function getVoucherApi(docNum) {
 	try {
-		const url = `${API_HOST}/booking/123456789`;
-		// const url = `${API_HOST}/booking/${docNum}`;
+		// const url = `${API_HOST}/booking/123456789`;
+		const url = `${API_HOST}/booking/${docNum}`;
 		const response = await fetch(url);
 		const result = await response.json();
 		console.log('%c // getVoucherApi', 'color: #008080');

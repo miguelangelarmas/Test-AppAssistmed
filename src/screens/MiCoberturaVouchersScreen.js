@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fcfcfc',
 		flex: 1,
 		padding: 15,
+		paddingBottom: 50,
 	},
 	card: {
 		marginBottom: 25,

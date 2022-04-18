@@ -101,7 +101,7 @@ export default function App() {
 		initialLoginState
 	);
 
-	const [storageVoucher, setStorageVoucher] = useState(dummyVoucherStorageData);
+	const [storageVoucher, setStorageVoucher] = useState(null);
 
 	const authDataContext = useMemo(() => ({
 		voucherStorageData: storageVoucher,
@@ -115,7 +115,7 @@ export default function App() {
 
 			const authSignIn = validResponse;
 
-			// setStorageVoucher(responseDataApi);
+			setStorageVoucher(responseDataApi);
 
 			try {
 				await AsyncStorage.setItem('authSignIn', authSignIn);

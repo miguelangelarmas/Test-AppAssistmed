@@ -18,6 +18,7 @@ import {
 	Title,
 	TextInput,
 	Paragraph,
+	ActivityIndicator,
 } from 'react-native-paper';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -40,6 +41,7 @@ export default function LoginScreen({ navigation }) {
 	});
 
 	const loginHandle = async (docNum) => {
+		setLoadingButton(true);
 		const responseDataApi = await getVoucherApi(docNum);
 		let validResponse = 'no';
 
@@ -55,13 +57,14 @@ export default function LoginScreen({ navigation }) {
 			responseDataApi,
 			validResponse
 		);
-
+		setLoadingButton(false);
 		signIn(validResponse, responseDataApi);
 	};
 
 	const { signIn } = useContext(AuthContext);
 
 	const [error, setError] = useState('');
+	const [loadingButton, setLoadingButton] = useState(false);
 
 	const textInputChange = (val) => {
 		if (val.trim().length >= 4) {
@@ -124,6 +127,7 @@ export default function LoginScreen({ navigation }) {
 
 			<Button
 				raised
+				loading={loadingButton}
 				mode={'contained'}
 				style={styles.button}
 				onPress={() => {
@@ -143,7 +147,6 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	logo: {
-		marginTop: 50,
 		width: 300,
 		height: 78,
 	},

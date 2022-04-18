@@ -42,7 +42,7 @@ export default function MiCoberturaCoberturasScreen() {
 					})}
 				</Card.Content>
 			</Card>
-			<Button onPress={() => signOut()}>Desloguearse</Button>
+			{/* <Button onPress={() => signOut()}>Desloguearse</Button> */}
 		</ScrollView>
 	);
 }

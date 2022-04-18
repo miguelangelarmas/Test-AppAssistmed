@@ -22,7 +22,7 @@ export default function MenuScreen(props) {
 	const {
 		menu: { mas },
 	} = props;
-	console.log('menuItems', mas);
+
 	return (
 		<View>
 			<View style={styles.header}>
