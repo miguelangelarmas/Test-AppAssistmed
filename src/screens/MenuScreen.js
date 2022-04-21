@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
 import {
 	useTheme,
@@ -15,16 +15,23 @@ import {
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
+import { openExternalLink } from '../services/openExternalLink';
 
 export default function MenuScreen(props) {
 	const { signOut } = useContext(AuthContext);
+
+	// console.log(
+	// 	'%c MenuScreen / AuthContext: ',
+	// 	'color: #DF6200; background: #FFF7F0',
+	// 	props
+	// );
 
 	const {
 		menu: { mas },
 	} = props;
 
 	return (
-		<View>
+		<SafeAreaView>
 			<View style={styles.header}>
 				<Text style={styles.headerText}>Menu</Text>
 			</View>
@@ -34,7 +41,7 @@ export default function MenuScreen(props) {
 						key={i}
 						icon={item.icon}
 						label={item.key}
-						onPress={() => {}}
+						onPress={() => openExternalLink('webpage', item.value)}
 					/>
 				);
 			})}
@@ -45,7 +52,7 @@ export default function MenuScreen(props) {
 				label='Cerrar sesion'
 				onPress={() => signOut()}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 }
 

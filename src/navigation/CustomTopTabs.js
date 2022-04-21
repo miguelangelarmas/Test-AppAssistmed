@@ -17,6 +17,7 @@ import {
 } from 'react-native-paper';
 import MiCoberturaVouchersScreen from '../screens/MiCoberturaVouchersScreen';
 import MiCoberturaCoberturasScreen from '../screens/MiCoberturaCoberturasScreen';
+import FloatCircleButton from '../components/FloatCircleButton';
 
 export default function CustomTopTabs() {
 	const [activeTab, setActiveTab] = useState('tab1');
@@ -56,6 +57,7 @@ export default function CustomTopTabs() {
 					<MiCoberturaCoberturasScreen />
 				)}
 			</View>
+			<FloatCircleButton />
 		</View>
 	);
 }
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 	},
 	tabInactive: {
-		borderBottomColor: 'red',
-		borderBottomWidth: 0,
+		borderBottomColor: '#e1e1e1',
+		borderBottomWidth: 2,
 	},
 });

@@ -83,9 +83,12 @@ export default function ScreenAsistenciaMedica() {
 
 					{voucherStorageData.phones.map((phone, i) => {
 						return (
-							<TouchableRipple key={i} onPress={() => console.log('Pressed')}>
-								<PhoneCard phone={phone} />
-							</TouchableRipple>
+							<View key={i}>
+								<Divider style={styles.divider}></Divider>
+								<TouchableRipple key={i} onPress={() => console.log('Pressed')}>
+									<PhoneCard phone={phone} />
+								</TouchableRipple>
+							</View>
 						);
 					})}
 				</Card.Content>

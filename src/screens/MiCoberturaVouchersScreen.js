@@ -16,13 +16,18 @@ import { AuthContext } from '../context/AuthContext';
 export default function MiCoberturaVouchersScreen() {
 	const { voucherStorageData, signOut } = useContext(AuthContext);
 
-	// console.log(
-	// 	'%c MiCoberturaScreen / AuthContext: ',
-	// 	'color: #478B20; background: #E7FFD9',
-	// 	voucherStorageData
-	// );
+	console.log(
+		'%c MiCoberturaScreen / AuthContext: ',
+		'color: #478B20; background: #E7FFD9',
+		voucherStorageData
+	);
 
-	const LeftContent = (props) => <Avatar.Icon {...props} icon='folder' />;
+	const VouchersIcon = (props) => (
+		<Avatar.Icon {...props} icon='file-document' />
+	);
+	const CoberturaIcon = (props) => (
+		<Avatar.Icon {...props} icon='medical-bag' />
+	);
 	const Separador = () => <View style={styles.separador}></View>;
 
 	return (
@@ -31,7 +36,7 @@ export default function MiCoberturaVouchersScreen() {
 				{voucherStorageData.vouchers.map((voucher, key) => {
 					return (
 						<View key={key}>
-							<Card.Title title='Vouchers' subtitle='' left={LeftContent} />
+							<Card.Title title='Vouchers' subtitle='' left={VouchersIcon} />
 							<Card.Content>
 								<Divider />
 								<Title>{`Nº de Voucher: ${voucher.voucherId}`}</Title>
@@ -45,7 +50,7 @@ export default function MiCoberturaVouchersScreen() {
 				})}
 			</Card>
 			<Card elevation={3}>
-				<Card.Title title='Cobertura' subtitle='' left={LeftContent} />
+				<Card.Title title='Cobertura' subtitle='' left={CoberturaIcon} />
 				<Card.Content>
 					<Divider />
 					<Title>{voucherStorageData.producto.nombre}</Title>
@@ -66,11 +71,11 @@ export default function MiCoberturaVouchersScreen() {
 					<Separador />
 
 					<Paragraph>
-						Contacto de emergencia:{'\n'}
+						Contacto de emergencia:
 						{voucherStorageData.contactoEmergencia.nombre}
 					</Paragraph>
 					<Paragraph>
-						Teléfono de emergencia:{'\n'}
+						Teléfono de emergencia:
 						{voucherStorageData.contactoEmergencia.telefono}
 					</Paragraph>
 				</Card.Content>
@@ -90,6 +95,7 @@ const styles = StyleSheet.create({
 	},
 	card: {
 		marginBottom: 25,
+		paddingBottom: 15,
 	},
 	separador: {
 		marginBottom: 10,

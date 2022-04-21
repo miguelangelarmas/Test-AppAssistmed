@@ -1,5 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, FlatList, ScrollView } from 'react-native';
+import {
+	View,
+	StyleSheet,
+	FlatList,
+	ScrollView,
+	SafeAreaView,
+} from 'react-native';
 import {
 	DefaultTheme,
 	Avatar,
@@ -17,11 +23,11 @@ import { AuthContext } from '../context/AuthContext';
 export default function MiCoberturaCoberturasScreen() {
 	const { voucherStorageData, signOut } = useContext(AuthContext);
 
-	// console.log(
-	// 	'%c MiCoberturaCoberturasScreen / AuthContext: ',
-	// 	'color: #478B20; background: #E7FFD9',
-	// 	voucherStorageData
-	// );
+	console.log(
+		'%c MiCoberturaCoberturasScreen / AuthContext: ',
+		'color: #478B20; background: #E7FFD9',
+		voucherStorageData
+	);
 
 	return (
 		<ScrollView style={styles.container}>
@@ -34,9 +40,9 @@ export default function MiCoberturaCoberturasScreen() {
 							<View style={styles.item} key={key}>
 								<Divider style={styles.divider} />
 								<Subheading>{cobertura.name}</Subheading>
-								<Paragraph>
+								<Text>
 									{cobertura.money} {cobertura.value}
-								</Paragraph>
+								</Text>
 							</View>
 						);
 					})}
@@ -60,6 +66,7 @@ const styles = StyleSheet.create({
 		marginTop: 15,
 		marginBottom: 10,
 	},
+
 	item: {
 		marginBottom: 0,
 	},

@@ -1,6 +1,6 @@
 {
 	"expo": {
-		"name": "AppAssistmed",
+		"name": "Test App Assistmed",
 		"slug": "AssistmedApp-Testing",
 		"version": "1.0.0",
 		"orientation": "portrait",
@@ -10,6 +10,7 @@
 			"resizeMode": "contain",
 			"backgroundColor": "#ffffff"
 		},
+		"scheme": "app-assistmed",
 		"updates": {
 			"fallbackToCacheTimeout": 0
 		},
@@ -21,7 +22,8 @@
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
-			}
+			},
+			"package": "com.miguelarmas.AssistmedAppTesting"
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
