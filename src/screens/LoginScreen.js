@@ -42,29 +42,40 @@ export default function LoginScreen({ navigation }) {
 
 	const loginHandle = async (docNum) => {
 		setLoadingButton(true);
-		const responseDataApi = await getVoucherApi(docNum);
-		let validResponse = 'no';
+		if (docNum) {
+			console.log('docNum: ', docNum);
 
-		if (responseDataApi.error === false) {
-			validResponse = 'si';
+			const responseDataApi = await getVoucherApi(docNum);
+			let validResponse = '';
+
+			if (responseDataApi.error === false) {
+				validResponse = docNum;
+			} else {
+				validResponse = '';
+				setError(true);
+				setErrorMesagge(
+					'No encontramos cobertura asociada al número de documento'
+				);
+			}
+			signIn(validResponse, responseDataApi);
 		} else {
-			validResponse = 'no';
+			console.log('else docNum: ', docNum);
 			setError(true);
+			setErrorMesagge('Debe ingresar un número de documento.');
 		}
-
-		console.log(
-			'%c LoginScreen / loginHandle /responseDataApi : ',
-			'color: #136CBF; background: #D9E7F5',
-			responseDataApi,
-			validResponse
-		);
 		setLoadingButton(false);
-		signIn(validResponse, responseDataApi);
+		// console.log(
+		// 	'%c LoginScreen / loginHandle /responseDataApi : ',
+		// 	'color: #136CBF; background: #D9E7F5',
+		// 	responseDataApi,
+		// 	validResponse
+		// );
 	};
 
 	const { signIn } = useContext(AuthContext);
 
 	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMesagge] = useState('');
 	const [loadingButton, setLoadingButton] = useState(false);
 
 	const textInputChange = (val) => {
@@ -137,11 +148,7 @@ export default function LoginScreen({ navigation }) {
 			>
 				Empezar
 			</Button>
-			{error && (
-				<Text style={styles.error}>
-					No encontramos cobertura asociada al número de documento
-				</Text>
-			)}
+			{error && <Text style={styles.error}>{errorMessage}</Text>}
 		</View>
 	);
 }

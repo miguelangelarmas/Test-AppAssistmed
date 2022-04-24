@@ -68,22 +68,30 @@ export default function App() {
 	const initialLoginState = {
 		isLoading: true,
 		authSignIn: '',
+		signedIn: false,
 		voucherData: [],
 	};
 
 	const loginReducer = (prevState, action) => {
+		console.log(
+			'%c App / loginReducer: ',
+			'color: #AD23BE; background: #F2D9F5',
+			action
+		);
 		switch (action.type) {
 			case 'RETRIEVE_TOKEN':
 				return {
 					...prevState,
 					authSignIn: action.signIn,
 					isLoading: false,
+					signedIn: action.signedIn,
 					voucherData: action.voucherData,
 				};
 			case 'LOGIN':
 				return {
 					...prevState,
 					authSignIn: action.signIn,
+					signedIn: action.signedIn,
 					isLoading: false,
 					voucherData: action.voucherData,
 				};
@@ -91,6 +99,7 @@ export default function App() {
 				return {
 					...prevState,
 					authSignIn: null,
+					signedIn: false,
 					isLoading: false,
 				};
 		}
@@ -101,31 +110,32 @@ export default function App() {
 		initialLoginState
 	);
 
-	const [storageVoucher, setStorageVoucher] = useState(dummyVoucherStorageData);
+	const [storageVoucher, setStorageVoucher] = useState(null);
 
 	const authDataContext = useMemo(() => ({
 		voucherStorageData: storageVoucher,
 		signIn: async (validResponse, responseDataApi) => {
-			// console.log(
-			// 	'%c App / responseDataApi: ',
-			// 	'color: #AD23BE; background: #F2D9F5',
-			// 	responseDataApi,
-			// 	validResponse
-			// );
+			console.log(
+				'%c App / signIn: ',
+				'color: #AD23BE; background: #F2D9F5',
+				validResponse,
+				responseDataApi
+			);
 
 			const authSignIn = validResponse;
 
-			// setStorageVoucher(responseDataApi);
+			setStorageVoucher(responseDataApi);
 
 			try {
 				await AsyncStorage.setItem('authSignIn', authSignIn);
 			} catch (e) {
-				console.log(e);
+				console.log('error: ', e);
 			}
 
 			dispatch({
 				type: 'LOGIN',
 				signIn: authSignIn,
+				signedIn: authSignIn.length == 0 ? false : true,
 				voucherData: responseDataApi,
 			});
 		},
@@ -140,17 +150,34 @@ export default function App() {
 	}));
 
 	useEffect(() => {
+		console.log('%c App / useEffect', 'color: #057049; background: #D3F4CD');
 		setTimeout(async () => {
 			// setIsLoading(false);
+			console.log('%c App / setTimeout', 'color: #057049; background: #D3F4CD');
 			let authSignIn;
 			authSignIn = '';
+			let varSignedIn = false;
 			try {
 				authSignIn = await AsyncStorage.getItem('authSignIn');
+				const responseDataApi = await getVoucherApi(authSignIn);
+				if (responseDataApi.error === false) {
+					console.log('AsyncStorage responseDataApi: ', responseDataApi);
+					setStorageVoucher(responseDataApi);
+					varSignedIn = true;
+					console.log(
+						'%c App / setTimeout / if (responseDataApi.error === false',
+						'color: #057049; background: #D3F4CD'
+					);
+				}
 			} catch (error) {
-				console.log(error);
+				console.log('error: ', error);
 			}
-			dispatch({ type: 'RETRIEVE_TOKEN', signIn: authSignIn });
-		}, 1000);
+			dispatch({
+				type: 'RETRIEVE_TOKEN',
+				signIn: authSignIn,
+				signedIn: varSignedIn,
+			});
+		}, 500);
 	}, []);
 
 	if (loginState.isLoading) {
@@ -160,27 +187,34 @@ export default function App() {
 	}
 
 	return (
-		<PaperProvider theme={theme}>
-			<AuthContext.Provider value={authDataContext}>
-				<NavigationContainer>
-					{loginState.authSignIn == 'si' ? (
-						<Drawer.Navigator
-							drawerContent={() => <MenuScreen menu={storageVoucher} />}
-						>
-							<Drawer.Screen name='Home' component={MainTabNavigation} />
-						</Drawer.Navigator>
-					) : (
-						<Stack.Navigator
-							screenOptions={{
-								headerShown: false,
-							}}
-						>
-							<Stack.Screen name='Login' component={LoginScreen} />
-						</Stack.Navigator>
-					)}
-				</NavigationContainer>
-			</AuthContext.Provider>
-		</PaperProvider>
+		<>
+			{console.log(
+				'%c App / RENDERED!',
+				'color: #057049; background: #D3F4CD',
+				loginState.signedIn
+			)}
+			<PaperProvider theme={theme}>
+				<AuthContext.Provider value={authDataContext}>
+					<NavigationContainer>
+						{loginState.signedIn ? (
+							<Drawer.Navigator
+								drawerContent={() => <MenuScreen menu={storageVoucher} />}
+							>
+								<Drawer.Screen name='Home' component={MainTabNavigation} />
+							</Drawer.Navigator>
+						) : (
+							<Stack.Navigator
+								screenOptions={{
+									headerShown: false,
+								}}
+							>
+								<Stack.Screen name='Login' component={LoginScreen} />
+							</Stack.Navigator>
+						)}
+					</NavigationContainer>
+				</AuthContext.Provider>
+			</PaperProvider>
+		</>
 	);
 }
 

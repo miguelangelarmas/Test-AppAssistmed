@@ -13,7 +13,12 @@ export default function FloatCircleButton() {
 			medium
 			icon='whatsapp'
 			color='white'
-			onPress={() => openExternalLink('whatsapp', 'tel:+123456789')}
+			onPress={() =>
+				openExternalLink(
+					'whatsapp',
+					'https://wa.me/541150409882?text=Estoy%20interesado%20en%20pruebaprueba'
+				)
+			}
 		/>
 	);
 }

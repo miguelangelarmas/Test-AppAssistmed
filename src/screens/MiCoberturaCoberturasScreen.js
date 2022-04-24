@@ -23,11 +23,11 @@ import { AuthContext } from '../context/AuthContext';
 export default function MiCoberturaCoberturasScreen() {
 	const { voucherStorageData, signOut } = useContext(AuthContext);
 
-	console.log(
-		'%c MiCoberturaCoberturasScreen / AuthContext: ',
-		'color: #478B20; background: #E7FFD9',
-		voucherStorageData
-	);
+	// console.log(
+	// 	'%c MiCoberturaCoberturasScreen / AuthContext: ',
+	// 	'color: #478B20; background: #E7FFD9',
+	// 	voucherStorageData
+	// );
 
 	return (
 		<ScrollView style={styles.container}>
