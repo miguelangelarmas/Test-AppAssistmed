@@ -43,8 +43,6 @@ export default function LoginScreen({ navigation }) {
 	const loginHandle = async (docNum) => {
 		setLoadingButton(true);
 		if (docNum) {
-			console.log('docNum: ', docNum);
-
 			const responseDataApi = await getVoucherApi(docNum);
 			let validResponse = '';
 
@@ -59,7 +57,6 @@ export default function LoginScreen({ navigation }) {
 			}
 			signIn(validResponse, responseDataApi);
 		} else {
-			console.log('else docNum: ', docNum);
 			setError(true);
 			setErrorMesagge('Debe ingresar un número de documento.');
 		}

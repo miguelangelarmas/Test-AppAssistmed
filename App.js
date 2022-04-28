@@ -60,11 +60,6 @@ const theme = {
 const dummyVoucherStorageData = JSON.parse(JSON.stringify(voucherStorageData));
 
 export default function App() {
-	// const [isLoading, setIsLoading] = useState(true);
-	// const [userToken, setUserToken] = useState(null);
-
-	// const voucherStorageData = voucherStorageData;
-
 	const initialLoginState = {
 		isLoading: true,
 		authSignIn: '',
@@ -73,11 +68,11 @@ export default function App() {
 	};
 
 	const loginReducer = (prevState, action) => {
-		console.log(
-			'%c App / loginReducer: ',
-			'color: #AD23BE; background: #F2D9F5',
-			action
-		);
+		// console.log(
+		// 	'%c App / loginReducer: ',
+		// 	'color: #AD23BE; background: #F2D9F5',
+		// 	action
+		// );
 		switch (action.type) {
 			case 'RETRIEVE_TOKEN':
 				return {
@@ -115,17 +110,8 @@ export default function App() {
 	const authDataContext = useMemo(() => ({
 		voucherStorageData: storageVoucher,
 		signIn: async (validResponse, responseDataApi) => {
-			console.log(
-				'%c App / signIn: ',
-				'color: #AD23BE; background: #F2D9F5',
-				validResponse,
-				responseDataApi
-			);
-
 			const authSignIn = validResponse;
-
 			setStorageVoucher(responseDataApi);
-
 			try {
 				await AsyncStorage.setItem('authSignIn', authSignIn);
 			} catch (e) {
@@ -150,10 +136,7 @@ export default function App() {
 	}));
 
 	useEffect(() => {
-		console.log('%c App / useEffect', 'color: #057049; background: #D3F4CD');
 		setTimeout(async () => {
-			// setIsLoading(false);
-			console.log('%c App / setTimeout', 'color: #057049; background: #D3F4CD');
 			let authSignIn;
 			authSignIn = '';
 			let varSignedIn = false;
@@ -161,13 +144,8 @@ export default function App() {
 				authSignIn = await AsyncStorage.getItem('authSignIn');
 				const responseDataApi = await getVoucherApi(authSignIn);
 				if (responseDataApi.error === false) {
-					console.log('AsyncStorage responseDataApi: ', responseDataApi);
 					setStorageVoucher(responseDataApi);
 					varSignedIn = true;
-					console.log(
-						'%c App / setTimeout / if (responseDataApi.error === false',
-						'color: #057049; background: #D3F4CD'
-					);
 				}
 			} catch (error) {
 				console.log('error: ', error);
@@ -177,7 +155,7 @@ export default function App() {
 				signIn: authSignIn,
 				signedIn: varSignedIn,
 			});
-		}, 500);
+		}, 100);
 	}, []);
 
 	if (loginState.isLoading) {
@@ -188,11 +166,11 @@ export default function App() {
 
 	return (
 		<>
-			{console.log(
+			{/* {console.log(
 				'%c App / RENDERED!',
 				'color: #057049; background: #D3F4CD',
 				loginState.signedIn
-			)}
+			)} */}
 			<PaperProvider theme={theme}>
 				<AuthContext.Provider value={authDataContext}>
 					<NavigationContainer>

@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-// import { Drawer } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsistenciaMedicaScreen from '../screens/AsistenciaMedicaScreen';
@@ -86,11 +86,22 @@ function TabsNavigator() {
 	);
 }
 
+const MenuButton = (props) => {
+	return (
+		<IconButton
+			icon='menu'
+			size={24}
+			color={'white'}
+			onPress={() => props.navigationProps.toggleDrawer()}
+		/>
+	);
+};
+
 function PaperUIComponentsNavigation() {
 	return <PaperUIComponentsScreen />;
 }
 
-export default function MainTabNavigation(props) {
+export default function MainTabNavigation({ navigation }) {
 	return (
 		<>
 			<Stack.Navigator
@@ -99,6 +110,7 @@ export default function MainTabNavigation(props) {
 						backgroundColor: '#BE2E2D',
 					},
 					headerTintColor: '#fff',
+					headerLeft: () => <MenuButton navigationProps={navigation} />,
 				}}
 			>
 				<Stack.Screen
