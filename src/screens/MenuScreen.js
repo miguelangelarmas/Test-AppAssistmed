@@ -41,7 +41,7 @@ export default function MenuScreen(props) {
 						key={i}
 						icon={item.icon}
 						label={item.key}
-						onPress={() => openExternalLink('webpage', item.value)}
+						onPress={() => openExternalLink(item.type, item.value)}
 					/>
 				);
 			})}

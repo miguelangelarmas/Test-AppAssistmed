@@ -16,6 +16,7 @@ import {
 	Paragraph,
 } from 'react-native-paper';
 import { AuthContext } from '../context/AuthContext';
+import { openExternalLink } from '../services/openExternalLink';
 
 const PhoneCard = (props) => {
 	const { phone } = props;
@@ -29,8 +30,8 @@ const PhoneCard = (props) => {
 			<View style={{ flex: 1 }}>
 				<IconButton
 					style={{ backgroundColor: '#f7f7f7' }}
-					icon='whatsapp'
-					color={'green'}
+					icon={phone.icon}
+					// color={'green'}
 					size={25}
 				/>
 			</View>
@@ -85,7 +86,10 @@ export default function ScreenAsistenciaMedica() {
 						return (
 							<View key={i}>
 								<Divider style={styles.divider}></Divider>
-								<TouchableRipple key={i} onPress={() => console.log('Pressed')}>
+								<TouchableRipple
+									key={i}
+									onPress={() => openExternalLink(phone.type, phone.phone)}
+								>
 									<PhoneCard phone={phone} />
 								</TouchableRipple>
 							</View>

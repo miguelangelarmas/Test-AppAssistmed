@@ -6,7 +6,6 @@ import { AuthContext } from '../context/AuthContext';
 
 export default function FloatCircleButton() {
 	const { voucherStorageData } = useContext(AuthContext);
-
 	return (
 		<FAB
 			style={styles.fab}
@@ -14,10 +13,7 @@ export default function FloatCircleButton() {
 			icon='whatsapp'
 			color='white'
 			onPress={() =>
-				openExternalLink(
-					'whatsapp',
-					'https://wa.me/541150409882?text=Estoy%20interesado%20en%20pruebaprueba'
-				)
+				openExternalLink('whatsapp', voucherStorageData.proveedor.whatsapp_url)
 			}
 		/>
 	);

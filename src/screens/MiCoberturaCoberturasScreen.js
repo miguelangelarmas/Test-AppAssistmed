@@ -21,7 +21,7 @@ import {
 import { AuthContext } from '../context/AuthContext';
 
 export default function MiCoberturaCoberturasScreen() {
-	const { voucherStorageData, signOut } = useContext(AuthContext);
+	const { voucherStorageData } = useContext(AuthContext);
 
 	// console.log(
 	// 	'%c MiCoberturaCoberturasScreen / AuthContext: ',
@@ -48,7 +48,6 @@ export default function MiCoberturaCoberturasScreen() {
 					})}
 				</Card.Content>
 			</Card>
-			{/* <Button onPress={() => signOut()}>Desloguearse</Button> */}
 		</ScrollView>
 	);
 }

@@ -52,7 +52,7 @@ export default function LoginScreen({ navigation }) {
 				validResponse = '';
 				setError(true);
 				setErrorMesagge(
-					'No encontramos cobertura asociada al número de documento'
+					'No encontramos cobertura asociada al número de documento.'
 				);
 			}
 			signIn(validResponse, responseDataApi);
@@ -134,6 +134,8 @@ export default function LoginScreen({ navigation }) {
 				onChangeText={(val) => textInputChange(val)}
 			/>
 
+			{error && <Text style={styles.error}>{errorMessage}</Text>}
+
 			<Button
 				raised
 				loading={loadingButton}
@@ -145,7 +147,6 @@ export default function LoginScreen({ navigation }) {
 			>
 				Empezar
 			</Button>
-			{error && <Text style={styles.error}>{errorMessage}</Text>}
 		</View>
 	);
 }
@@ -168,6 +169,6 @@ const styles = StyleSheet.create({
 	error: {
 		textAlign: 'center',
 		color: '#DE481E',
-		marginTop: 20,
+		marginBottom: 10,
 	},
 });
