@@ -48,16 +48,17 @@ export default function FechasFlexiblesScreen() {
 			<Text>FechasFlexiblesTab Screen</Text>
 			<View>
 				<View>
-					<Button onPress={showDatepicker} title='Show date picker!'>
-						aaa
+					<Button
+						mode={'contained'}
+						onPress={showDatepicker}
+						title='Show date picker!'
+					>
+						Seleccionar fecha
 					</Button>
 				</View>
-				<View>
-					<Button onPress={showTimepicker} title='Show time picker!'>
-						bbb
-					</Button>
-				</View>
-				<Text>selected: {date.toLocaleString()}</Text>
+
+				<Text>Seleccionada: {date.toLocaleString()}</Text>
+
 				{show && (
 					<DateTimePicker
 						testID='dateTimePicker'
@@ -68,8 +69,13 @@ export default function FechasFlexiblesScreen() {
 					/>
 				)}
 			</View>
-			<Button onPress={() => flexDates('1013363', '2022-08-16', '2022-08-19')}>
-				Enviar
+
+			<Button
+				raised
+				mode={'contained'}
+				onPress={() => flexDates('1013363', '2022-08-16', '2022-08-19')}
+			>
+				ENVIAR
 			</Button>
 		</View>
 	);
