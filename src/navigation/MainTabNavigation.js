@@ -32,7 +32,10 @@ function getHeaderTitle(route) {
 
 function TabsNavigator() {
 	return (
-		<Tab.Navigator barStyle={styles.navigatorTab}>
+		<Tab.Navigator
+			barStyle={styles.navigatorTab}
+			initialRouteName={'Cobertura'}
+		>
 			<Tab.Screen
 				style={styles.navigatorTab}
 				name='Cobertura'

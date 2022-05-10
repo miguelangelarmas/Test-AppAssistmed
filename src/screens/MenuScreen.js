@@ -39,7 +39,7 @@ export default function MenuScreen(props) {
 				return (
 					<Drawer.Item
 						key={i}
-						icon={item.icon}
+						// icon={item.icon}
 						label={item.key}
 						onPress={() => openExternalLink(item.type, item.value)}
 					/>

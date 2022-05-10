@@ -16,11 +16,11 @@ import { AuthContext } from '../context/AuthContext';
 export default function MiCoberturaVouchersScreen() {
 	const { voucherStorageData } = useContext(AuthContext);
 
-	console.log(
-		'%c MiCoberturaScreen / AuthContext: ',
-		'color: #478B20; background: #E7FFD9',
-		voucherStorageData
-	);
+	// console.log(
+	// 	'%c MiCoberturaScreen / AuthContext: ',
+	// 	'color: #478B20; background: #E7FFD9',
+	// 	voucherStorageData
+	// );
 
 	const VouchersIcon = (props) => (
 		<Avatar.Icon {...props} icon='file-document' />

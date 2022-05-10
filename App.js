@@ -133,6 +133,13 @@ export default function App() {
 			}
 			dispatch({ type: 'LOGOUT' });
 		},
+		updateVoucherStorage: async (newFlexdateVoucher) => {
+			console.log(
+				'APP.JS / updateVoucherStorage() / newFlexdateVoucher: ',
+				newFlexdateVoucher
+			);
+			setStorageVoucher(newFlexdateVoucher);
+		},
 	}));
 
 	useEffect(() => {
