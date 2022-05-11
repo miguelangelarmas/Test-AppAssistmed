@@ -33,6 +33,7 @@ export default function FechasFlexiblesScreen() {
 	const dataLimit = voucherStorageData.fechaLimite;
 	const dataDays = voucherStorageData.days;
 	const dataIsFlex = voucherStorageData.fechaFlexible;
+	const dataDateEmision = voucherStorageData.fechaEmision;
 
 	// const showDialog = () => setVisible(true);
 	// const hideDialog = () => setVisible(false);
@@ -72,20 +73,24 @@ export default function FechasFlexiblesScreen() {
 	// console.log('****** Renderizado general / useState / dateTo: ', dateTo);
 
 	const onChange = (event, date) => {
-		const selectedDate = date;
-		// console.log('-Entro onChange() / selectedDate: ', selectedDate);
-		let choosendDate = selectedDate;
-		let choosendDatePlusDays = sumarDias(selectedDate, dataDays);
+		if (date != undefined) {
+			console.log('-Entro onChange() / selectedDate: ', selectedDate);
+			const selectedDate = date;
+			let choosendDate = selectedDate;
+			let choosendDatePlusDays = sumarDias(selectedDate, dataDays);
 
-		// console.log('---onChange() / choosendDate: ', choosendDate);
-		// console.log('---onChange() / choosendDatePlusDays: ', choosendDatePlusDays);
+			// console.log('---onChange() / choosendDate: ', choosendDate);
+			// console.log('---onChange() / choosendDatePlusDays: ', choosendDatePlusDays);
 
-		setShow(false);
-		setCurrentDate(selectedDate);
-		setDateFrom(choosendDate);
-		setDateTo(choosendDatePlusDays);
-		setDateStringFrom(formatDate(choosendDate, 'date', 'string'));
-		setDateStringTo(formatDate(choosendDatePlusDays, 'date', 'string'));
+			setShow(false);
+			setCurrentDate(selectedDate);
+			setDateFrom(choosendDate);
+			setDateTo(choosendDatePlusDays);
+			setDateStringFrom(formatDate(choosendDate, 'date', 'string'));
+			setDateStringTo(formatDate(choosendDatePlusDays, 'date', 'string'));
+		} else {
+			setShow(false);
+		}
 	};
 
 	// console.log(
@@ -101,24 +106,28 @@ export default function FechasFlexiblesScreen() {
 	// };
 
 	const sendFlexDates = async (reservaId, dateStringFrom, dateStringTo) => {
-		console.log(
-			'==== sendFlexDate() / reservaId, dateStringFrom, dateStringTo: ',
-			reservaId,
-			dateStringFrom,
-			dateStringTo
-		);
+		// console.log(
+		// 	'==== sendFlexDate() / reservaId, dateStringFrom, dateStringTo: ',
+		// 	reservaId,
+		// 	dateStringFrom,
+		// 	dateStringTo
+		// );
 		const responseDataApi = await flexDates(
 			reservaId,
 			dateStringFrom,
 			dateStringTo
 		);
+		console.log('sendFlexDates() / responseDataApi :', responseDataApi.status);
+
 		if (responseDataApi.status == 'ok') {
+			console.log('entro OK');
 			setConfirmTransaction({
 				...confirmTransaction,
 				status: 'ok',
 				message: responseDataApi.respuesta,
 			});
 		} else {
+			console.log('entro ELSE');
 			setConfirmTransaction({
 				...confirmTransaction,
 				status: 'ko',
@@ -229,23 +238,24 @@ export default function FechasFlexiblesScreen() {
 				penalidades ni cambio de tarifa. Solo te queda disfrutar!
 			</Paragraph>
 
-			{/* <View
+			<View
 				style={{
 					padding: 10,
 					backgroundColor: '#ffebd6',
 				}}
 			>
-				<Text>Cantidad de días: {dataDays} </Text>
-				<Text>Fecha máxima: {dataLimit} </Text>
 				<Text>Fecha salida: {dataDateFrom}</Text>
 				<Text>Fecha regreso: {dataDateTo}</Text>
+				<Text>Cantidad de días: {dataDays} </Text>
+				<Text>Fecha emision: {dataDateEmision}</Text>
+				<Text>Fecha máxima: {dataLimit} </Text>
 				<Text>Flexible: {dataIsFlex ? 'Si' : 'No'}</Text>
-			</View> */}
+			</View>
 
 			<Card elevation={2} style={styles.card}>
 				<Card.Title
 					title='Seleccionar'
-					subtitle='Nuevas fechas'
+					subtitle='Fecha de viaje'
 					left={FlexdateIcon}
 				/>
 				<Card.Content>
@@ -272,6 +282,7 @@ export default function FechasFlexiblesScreen() {
 				{show && (
 					<>
 						<DateTimePicker
+							minimumDate={new Date(1950, 0, 1)}
 							testID='dateTimePicker'
 							value={currentDate}
 							mode='date'
@@ -337,7 +348,7 @@ export default function FechasFlexiblesScreen() {
 			{/* <Button
 				raised
 				mode={'contained'}
-				onPress={() => formatDate(dataDateFrom, 'string', 'date')}
+				onPress={() => sendFlexDates('1013632', '2022-07-05', '2022-07-10')}
 			>
 				PRUEBA
 			</Button> */}
