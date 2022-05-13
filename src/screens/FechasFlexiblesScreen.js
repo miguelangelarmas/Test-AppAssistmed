@@ -306,14 +306,13 @@ export default function FechasFlexiblesScreen() {
 							raised
 							mode={'contained'}
 							onPress={() =>
-								sendFlexDates(
-									voucherStorageData.reservaId,
-									dateStringFrom,
-									dateStringTo
-								)
+								setConfirmTransaction({
+									...confirmTransaction,
+									screen: 'datepicker',
+								})
 							}
 						>
-							Cambiar fecha
+							Realizar nuevo cambio
 						</Button>
 					</Card.Content>
 				</Card>
@@ -335,14 +334,13 @@ export default function FechasFlexiblesScreen() {
 							raised
 							mode={'contained'}
 							onPress={() =>
-								sendFlexDates(
-									voucherStorageData.reservaId,
-									dateStringFrom,
-									dateStringTo
-								)
+								setConfirmTransaction({
+									...confirmTransaction,
+									screen: 'datepicker',
+								})
 							}
 						>
-							Cambiar fecha
+							Reintentar
 						</Button>
 					</Card.Content>
 				</Card>
@@ -366,14 +364,13 @@ export default function FechasFlexiblesScreen() {
 							raised
 							mode={'contained'}
 							onPress={() =>
-								sendFlexDates(
-									voucherStorageData.reservaId,
-									dateStringFrom,
-									dateStringTo
-								)
+								setConfirmTransaction({
+									...confirmTransaction,
+									screen: 'datepicker',
+								})
 							}
 						>
-							Cambiar fecha
+							Reintentar
 						</Button>
 					</Card.Content>
 				</Card>
