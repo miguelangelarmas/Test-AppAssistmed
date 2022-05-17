@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { flexDates } from '../services/flexDates';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -164,13 +164,15 @@ export default function FechasFlexiblesScreen() {
 	);
 
 	function sumarDias(fecha, dias) {
-		fecha = new Date(fecha);
+		const offset = fecha.getTimezoneOffset();
+		fecha = new Date(fecha.getTime() - offset * 60 * 1000);
+
 		// console.log(
 		// 	'%c ||| sumarDias() / fecha : ',
 		// 	'color: #bc14f5; background: #faebff',
 		// 	fecha
 		// );
-		fecha.setDate(fecha.getDate() + dias);
+		fecha.setDate(fecha.getDate() + (dias - 1));
 		// fecha = formatDate(fecha, 'date', 'date');
 		// console.log(
 		// 	'%c ||| sumarDias() / fecha : ',
@@ -194,7 +196,7 @@ export default function FechasFlexiblesScreen() {
 	};
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container}>
 			<Title>Puedes cambiarlas cuando quieras</Title>
 			<Paragraph>
 				Recuerda que tienes un año para hacerlo, las veces que quieras sin
@@ -265,7 +267,7 @@ export default function FechasFlexiblesScreen() {
 				{show && (
 					<>
 						<DateTimePicker
-							minimumDate={new Date(2022, 5, 20)}
+							minimumDate={formatDate('2022-05-10', 'string', 'yearmonthday')}
 							testID='dateTimePicker'
 							value={currentDate}
 							mode='date'
@@ -403,13 +405,20 @@ export default function FechasFlexiblesScreen() {
 				Show Dialog
 			</Button> */}
 
-			<Button
+			{/* <Button
 				raised
 				onPress={() => sendFlexDates('1013632', '2020-07-5', '2020-07-15')}
 			>
 				PRUEBA
-			</Button>
-		</View>
+			</Button> */}
+
+			{/* <Button
+				raised
+				onPress={() => formatDate(new Date('2022-05-10'), 'date', 'date')}
+			>
+				PRUEBA
+			</Button> */}
+		</ScrollView>
 	);
 }
 

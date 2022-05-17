@@ -1,15 +1,16 @@
 export function formatDate(yourDate, inputType, outputType) {
 	try {
-		// console.log(
-		// 	'%c ////// formatDate() / yourDate, inputType, outputType : ',
-		// 	'color: #bc14f5; background: #faebff',
-		// 	yourDate,
-		// 	inputType,
-		// 	outputType
-		// );
+		console.log(
+			'%c ////// formatDate() / yourDate, inputType, outputType : ',
+			'color: #bbbb14f5',
+			yourDate,
+			inputType,
+			outputType
+		);
 		if (inputType === 'date') {
-			const offset = yourDate.getTimezoneOffset();
-			yourDate = new Date(yourDate.getTime() - offset * 60 * 1000);
+			yourDate = yourDate;
+			yourDate.setMinutes(yourDate.getMinutes() + yourDate.getTimezoneOffset());
+
 			// console.log(
 			// 	'%c /// formatDate() / inputType === date : ',
 			// 	'color: #bc14f5; background: #faebff',
@@ -17,8 +18,8 @@ export function formatDate(yourDate, inputType, outputType) {
 			// );
 		} else if (inputType === 'string') {
 			yourDate = new Date(yourDate);
-			const offset = yourDate.getTimezoneOffset();
-			yourDate = new Date(yourDate.getTime() - offset * 60 * 1000);
+			yourDate.setMinutes(yourDate.getMinutes() + yourDate.getTimezoneOffset());
+
 			// console.log(
 			// 	'%c /// formatDate() / inputType === string : ',
 			// 	'color: #bc14f5; background: #faebff',
@@ -28,6 +29,14 @@ export function formatDate(yourDate, inputType, outputType) {
 			console.log('--- error formatDate()');
 			return 'error';
 		}
+
+		console.log(
+			'%c ////// formatDate() / yourDate, inputType, outputType : ',
+			'color: #bbbb14f5',
+			yourDate,
+			inputType,
+			outputType
+		);
 
 		if (outputType === 'date') {
 			// console.log(
@@ -43,6 +52,30 @@ export function formatDate(yourDate, inputType, outputType) {
 			// 	yourDate.toISOString().split('T')[0]
 			// );
 			return yourDate.toISOString().split('T')[0];
+		} else if (outputType === 'yearmonthday') {
+			console.log(
+				'%c /// formatDate() / outputType ===  string / yourDate:  ',
+				'color: #bc14f5; background: #faebff',
+				yourDate
+			);
+			let year = yourDate.getFullYear();
+			let month = yourDate.getMonth();
+			let day = yourDate.getDate();
+
+			let yearmontday = [];
+			yearmontday[0] = year;
+			yearmontday[1] = month;
+			yearmontday[2] = day;
+
+			yearmontday = new Date(yearmontday[0], yearmontday[1], yearmontday[2]);
+
+			console.log(
+				'%c /// formatDate() / outputType ===  yearrmontday : ',
+				'color: #bc14f5; background: #faebff',
+				yearmontday
+			);
+
+			return yearmontday;
 		} else {
 			console.log('--- error formatDate()');
 			return 'error';
