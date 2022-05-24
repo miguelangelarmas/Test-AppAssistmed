@@ -19,6 +19,7 @@ import { openExternalLink } from '../services/openExternalLink';
 
 export default function MenuScreen(props) {
 	const { signOut } = useContext(AuthContext);
+	const { colors } = useTheme();
 
 	// console.log(
 	// 	'%c MenuScreen / AuthContext: ',
@@ -32,7 +33,7 @@ export default function MenuScreen(props) {
 
 	return (
 		<SafeAreaView>
-			<View style={styles.header}>
+			<View style={[styles.header, { backgroundColor: colors.accent }]}>
 				<Text style={styles.headerText}>Menu</Text>
 			</View>
 			{mas.map((item, i) => {
@@ -58,7 +59,6 @@ export default function MenuScreen(props) {
 
 const styles = StyleSheet.create({
 	header: {
-		backgroundColor: '#DE481E',
 		height: 50,
 		width: '100%',
 		justifyContent: 'center',

@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { flexDates } from '../services/flexDates';
+import { sendFlexates } from '../services/sendFlexates';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { AuthContext } from '../context/AuthContext';
 import { formatDate } from '../services/formatDate';
+import { sumarDias } from '../services/sumarDias';
+import { restarDias } from '../services/restarDias';
 import {
 	Text,
 	Card,
@@ -22,7 +24,8 @@ import {
 	Provider,
 } from 'react-native-paper';
 import Separador from '../components/Separador';
-import { CasoUno, CasoDos } from './partials/CasesFechasFlexibles';
+import { CardFlexCases } from './partials/CasesFechasFlexibles';
+import { RoundedIcon } from '../components/RoundedIcon';
 
 export default function FechasFlexiblesScreen() {
 	console.log('/RENDERIZADO GENERAL');
@@ -44,9 +47,10 @@ export default function FechasFlexiblesScreen() {
 	const [visible, setVisible] = React.useState(false);
 
 	const [confirmTransaction, setConfirmTransaction] = React.useState({
+		// screen: 'datepicker',
 		screen: 'datepicker',
 		status: null,
-		message: '',
+		message: 'aca va el texto de confirmacion que tu me',
 	});
 
 	const [dateStringFrom, setDateStringFrom] = useState(
@@ -115,11 +119,7 @@ export default function FechasFlexiblesScreen() {
 		// 	dateStringFrom,
 		// 	dateStringTo
 		// );
-		const responseDataApi = await flexDates(
-			reservaId,
-			dateStringFrom,
-			dateStringTo
-		);
+		const responseDataApi = await sendFlexates(reservaId, dateStringFrom, dateStringTo);
 		console.log('sendFlexDates() / responseDataApi :', responseDataApi.status);
 
 		if (responseDataApi.status == 'ok') {
@@ -134,7 +134,7 @@ export default function FechasFlexiblesScreen() {
 			console.log('entro ELSEIF');
 			setConfirmTransaction({
 				...confirmTransaction,
-				screen: 'dismiss',
+				screen: 'reject',
 				status: 'ko',
 				message: responseDataApi.error,
 			});
@@ -163,25 +163,6 @@ export default function FechasFlexiblesScreen() {
 		/>
 	);
 
-	function sumarDias(fecha, dias) {
-		const offset = fecha.getTimezoneOffset();
-		fecha = new Date(fecha.getTime() - offset * 60 * 1000);
-
-		// console.log(
-		// 	'%c ||| sumarDias() / fecha : ',
-		// 	'color: #bc14f5; background: #faebff',
-		// 	fecha
-		// );
-		fecha.setDate(fecha.getDate() + (dias - 1));
-		// fecha = formatDate(fecha, 'date', 'date');
-		// console.log(
-		// 	'%c ||| sumarDias() / fecha : ',
-		// 	'color: #bc14f5; background: #faebff',
-		// 	fecha
-		// );
-		return fecha;
-	}
-
 	const TwoColumnButton = (props) => {
 		return (
 			<>
@@ -198,12 +179,12 @@ export default function FechasFlexiblesScreen() {
 	return (
 		<ScrollView style={styles.container}>
 			<Title>Puedes cambiarlas cuando quieras</Title>
-			<Paragraph>
+			<Paragraph style={styles.flexdateParagraph}>
 				Recuerda que tienes un año para hacerlo, las veces que quieras sin
 				penalidades ni cambio de tarifa. Solo te queda disfrutar!
 			</Paragraph>
 
-			<View
+			{/* <View
 				style={{
 					padding: 10,
 					backgroundColor: '#ffebd6',
@@ -215,170 +196,137 @@ export default function FechasFlexiblesScreen() {
 				<Text>Fecha emision: {dataDateEmision}</Text>
 				<Text>Fecha máxima: {dataLimit} </Text>
 				<Text>Flexible: {dataIsFlex ? 'Si' : 'No'}</Text>
-			</View>
+			</View> */}
+			{dataIsFlex &&
+				<View>
 
-			{confirmTransaction.screen === 'datepicker' && (
-				<Card elevation={2} style={styles.card}>
-					<Card.Title
-						title='Seleccionar'
-						subtitle='Fecha de viaje'
-						left={FlexdateIcon}
-					/>
-					<Card.Content>
-						<Divider />
-						<Separador />
-						<TouchableRipple
-							onPress={showDatepicker}
-							style={styles.twoColumnData}
-						>
-							<TwoColumnButton leftName='Desde: ' rightValue={dateStringFrom} />
-						</TouchableRipple>
 
-						<TouchableRipple
-							style={[styles.twoColumnData, styles.inputDisabled]}
-						>
-							<TwoColumnButton leftName='Hasta: ' rightValue={dateStringTo} />
-						</TouchableRipple>
 
-						<Separador />
+					{confirmTransaction.screen === 'datepicker' && (
+						<Card elevation={2} style={styles.card}>
+							<Card.Title
+								title='Seleccionar'
+								subtitle='Fecha de viaje'
+								left={(props) => (
+									<RoundedIcon
+										{...props}
+										icon='calendar'
+										iconSource='Ionicons'
+										color='red'
+									/>
+								)}
+							/>
+							<Card.Content>
+								<Divider />
+								<Separador />
+								<TouchableRipple
+									onPress={showDatepicker}
+									style={styles.twoColumnData}
+								>
+									<TwoColumnButton leftName='Desde: ' rightValue={dateStringFrom} />
+								</TouchableRipple>
 
-						<Button
-							raised
-							mode={'contained'}
-							onPress={() =>
-								sendFlexDates(
-									voucherStorageData.reservaId,
-									dateStringFrom,
-									dateStringTo
-								)
-							}
-						>
-							ENVIAR
-						</Button>
-					</Card.Content>
-				</Card>
-			)}
+								<TouchableRipple
+									style={[styles.twoColumnData, styles.inputDisabled]}
+								>
+									<TwoColumnButton leftName='Hasta: ' rightValue={dateStringTo} />
+								</TouchableRipple>
 
-			<View>
-				<Text style={{ color: 'red' }}>
-					{/* Fecha seleccionada: {formatDate(dateFrom, 'date', 'string')} */}
-				</Text>
+								<Separador />
 
-				{show && (
-					<>
-						<DateTimePicker
-							minimumDate={formatDate('2022-05-10', 'string', 'yearmonthday')}
-							testID='dateTimePicker'
-							value={currentDate}
-							mode='date'
-							display='default'
-							onChange={onChange}
-						/>
-						{/* <Button raised mode={'contained'} onPress={iosSelectDate}>
+								<Button
+									raised
+									mode={'contained'}
+									onPress={() =>
+										sendFlexDates(
+											voucherStorageData.reservaId,
+											dateStringFrom,
+											dateStringTo
+										)
+									}
+								>
+									ENVIAR
+								</Button>
+							</Card.Content>
+						</Card>
+					)}
+
+					<View>
+						<Text style={{ color: 'red' }}>
+							{/* Fecha seleccionada: {formatDate(dateFrom, 'date', 'string')} */}
+						</Text>
+						{console.log('FECHA MAXIMA: ', formatDate(dataLimit, 'string', 'date'))}
+						{console.log(
+							'FECHA MAXIMA: ',
+							restarDias(
+								formatDate(
+									formatDate(dataLimit, 'string', 'date'),
+									'string',
+									'date'
+								),
+								dataDays - 1
+							)
+						)}
+						{show && (
+							<>
+								<DateTimePicker
+									minimumDate={new Date()}
+									maximumDate={restarDias(
+										formatDate(
+											formatDate(dataLimit, 'string', 'date'),
+											'string',
+											'date'
+										),
+										dataDays - 1
+									)}
+									testID='dateTimePicker'
+									value={currentDate}
+									mode='date'
+									display='default'
+									onChange={onChange}
+								/>
+								{/* <Button raised mode={'contained'} onPress={iosSelectDate}>
 							SECCIONAR
 						</Button> */}
-					</>
-				)}
-			</View>
+							</>
+						)}
+					</View>
 
-			{confirmTransaction.screen === 'success' && (
-				<Card elevation={2} style={styles.card}>
-					<Card.Title
-						title='Felicitaciones Viajer@'
-						subtitle='Cambio realizado!'
-						left={FlexdateIcon}
-					/>
-					<Card.Content>
-						<Divider />
-						<Separador />
-						<Headline style={{ color: 'green' }}>
-							{confirmTransaction.message}
-						</Headline>
-						<TouchableRipple style={styles.twoColumnData}>
-							<TwoColumnButton leftName='Desde: ' rightValue={dateStringFrom} />
-						</TouchableRipple>
+					{confirmTransaction.screen === 'success' && (
+						<CardFlexCases
+							screen='success'
+							title='Felicitaciones Viajer@'
+							subtitle='Cambio realizado!'
+							headerIcon='folder'
+							message={confirmTransaction.message}
+							dateFrom='0000-00-00'
+							dateTo='0000-00-00'
+						/>
+					)}
 
-						<TouchableRipple style={styles.twoColumnData}>
-							<TwoColumnButton leftName='Hasta: ' rightValue={dateStringTo} />
-						</TouchableRipple>
+					{confirmTransaction.screen === 'reject' && (
+						<CardFlexCases
+							screen='reject'
+							title='Lo sentimos!'
+							subtitle='Cambio rechazado'
+							message={confirmTransaction.message}
+							button={true}
+						/>
+					)}
 
-						<Separador />
+					{confirmTransaction.screen === 'error' && (
+						<CardFlexCases
+							screen='error'
+							title='Lo sentimos!'
+							subtitle='Ocurrio un error'
+							message='Lo sentimos. Ocurrio un error. Por favor, vuelva a intentarlo más tarde o comuníquese con nosotros para asistirlo.'
+							button={true}
+						/>
+					)}
 
-						<Button
-							raised
-							mode={'contained'}
-							onPress={() =>
-								setConfirmTransaction({
-									...confirmTransaction,
-									screen: 'datepicker',
-								})
-							}
-						>
-							Realizar nuevo cambio
-						</Button>
-					</Card.Content>
-				</Card>
-			)}
 
-			{confirmTransaction.screen === 'dismiss' && (
-				<Card elevation={2} style={styles.card}>
-					<Card.Title
-						title='Lo sentimos!'
-						subtitle='asdasdasdad'
-						left={FlexdateIcon}
-					/>
-					<Card.Content>
-						<Divider />
-						<Separador />
-						<Title style={{ color: 'red' }}>{confirmTransaction.message}</Title>
-						<Separador />
-						<Button
-							raised
-							mode={'contained'}
-							onPress={() =>
-								setConfirmTransaction({
-									...confirmTransaction,
-									screen: 'datepicker',
-								})
-							}
-						>
-							Reintentar
-						</Button>
-					</Card.Content>
-				</Card>
-			)}
 
-			{confirmTransaction.screen === 'error' && (
-				<Card elevation={2} style={styles.card}>
-					<Card.Title
-						title='Lo sentimos!'
-						subtitle='ERROR'
-						left={FlexdateIcon}
-					/>
-					<Card.Content>
-						<Divider />
-						<Separador />
-						<Title>{confirmTransaction.message}</Title>
-
-						<Separador />
-
-						<Button
-							raised
-							mode={'contained'}
-							onPress={() =>
-								setConfirmTransaction({
-									...confirmTransaction,
-									screen: 'datepicker',
-								})
-							}
-						>
-							Reintentar
-						</Button>
-					</Card.Content>
-				</Card>
-			)}
-
-			{/* <Portal>
+					{/* <Portal>
 				<Dialog visible={visible} onDismiss={hideDialog}>
 					<Dialog.Title>Nueva fecha de salida</Dialog.Title>
 					<Dialog.Content>
@@ -401,30 +349,45 @@ export default function FechasFlexiblesScreen() {
 				</Dialog>
 			</Portal> */}
 
-			{/* <Button raised mode={'contained'} onPress={showDialog}>
+					{/* <Button raised mode={'contained'} onPress={showDialog}>
 				Show Dialog
 			</Button> */}
 
-			{/* <Button
+					{/* <Button
 				raised
-				onPress={() => sendFlexDates('1013632', '2020-07-5', '2020-07-15')}
+				onPress={() => sendFlexDates('1013632', '2022-07-01', '2022-07-05')}
 			>
 				PRUEBA
 			</Button> */}
 
-			{/* <Button
+					{/* <Button
 				raised
 				onPress={() => formatDate(new Date('2022-05-10'), 'date', 'date')}
 			>
 				PRUEBA
 			</Button> */}
+				</View>
+			}
+
+			{!dataIsFlex &&
+				<View>
+					<CardFlexCases
+						screen='noflex'
+						title='No disponible'
+						subtitle='Lo sentimos'
+						headerIcon='error-outline'
+						iconSource='MaterialIcons'
+						message={`La reserva ${voucherStorageData.reservaId} no dispone de cambio de fechas.`}
+					/>
+				</View>
+			}
 		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#fcfcfc',
+		backgroundColor: '#f9f9f9',
 		flex: 1,
 		padding: 15,
 	},
@@ -440,6 +403,9 @@ const styles = StyleSheet.create({
 	},
 	column: {
 		flexGrow: 1,
+	},
+	flexdateParagraph: {
+		marginBottom: 25,
 	},
 	text: {
 		fontSize: 18,

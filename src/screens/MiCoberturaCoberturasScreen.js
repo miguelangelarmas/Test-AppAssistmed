@@ -7,6 +7,7 @@ import {
 	SafeAreaView,
 } from 'react-native';
 import {
+	useTheme,
 	DefaultTheme,
 	Avatar,
 	Text,
@@ -22,7 +23,7 @@ import { AuthContext } from '../context/AuthContext';
 
 export default function MiCoberturaCoberturasScreen() {
 	const { voucherStorageData } = useContext(AuthContext);
-
+	const { colors } = useTheme();
 	// console.log(
 	// 	'%c MiCoberturaCoberturasScreen / AuthContext: ',
 	// 	'color: #478B20; background: #E7FFD9',
@@ -40,7 +41,7 @@ export default function MiCoberturaCoberturasScreen() {
 							<View style={styles.item} key={key}>
 								<Divider style={styles.divider} />
 								<Subheading>{cobertura.name}</Subheading>
-								<Text>
+								<Text style={styles.coberturaPrecio}>
 									{cobertura.money} {cobertura.value}
 								</Text>
 							</View>
@@ -54,7 +55,7 @@ export default function MiCoberturaCoberturasScreen() {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#fcfcfc',
+		backgroundColor: '#f9f9f9',
 		flex: 1,
 		padding: 15,
 	},
@@ -65,7 +66,10 @@ const styles = StyleSheet.create({
 		marginTop: 15,
 		marginBottom: 10,
 	},
-
+	coberturaTitulo: {},
+	coberturaPrecio: {
+		fontWeight: 'bold',
+	},
 	item: {
 		marginBottom: 0,
 	},

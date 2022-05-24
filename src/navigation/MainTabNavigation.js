@@ -76,15 +76,15 @@ function TabsNavigator() {
 				}}
 			/>
 			{/* <Tab.Screen
-		name='Paper UI'
-		component={PaperUIComponentsNavigation}
-		options={{
-			tabBarLabel: 'Paper UI',
-			tabBarIcon: ({ color, size }) => (
-				<MaterialCommunityIcons name='autorenew' color={color} size={20} />
-			),
-		}}
-	/> */}
+				name='Paper UI'
+				component={PaperUIComponentsNavigation}
+				options={{
+					tabBarLabel: 'Paper UI',
+					tabBarIcon: ({ color, size }) => (
+						<MaterialCommunityIcons name='autorenew' color={color} size={20} />
+					),
+				}}
+			/> */}
 		</Tab.Navigator>
 	);
 }

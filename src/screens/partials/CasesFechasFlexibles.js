@@ -1,5 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import React from 'react';
+
 import {
 	Text,
 	Card,
@@ -16,53 +17,78 @@ import {
 	Portal,
 	Provider,
 } from 'react-native-paper';
+import Separador from '../../components/Separador';
+import { RoundedIcon } from '../../components/RoundedIcon';
+export function CardFlexCases(props) {
+	const {
+		screen,
+		title,
+		subtitle,
+		titleIcon,
+		message,
+		dateFrom,
+		dateTo,
+		headerIcon,
+		iconSource,
+		button,
+	} = props;
 
-export function CaseSuccess(props) {
-	const { titulo } = props;
+	const TwoColumnButton = (props) => {
+		return (
+			<>
+				<View style={styles.column}>
+					<Text style={styles.text}>{props.leftName}</Text>
+				</View>
+				<View style={(styles.column, styles.textAlignRight)}>
+					<Text style={styles.text}>{props.rightValue}</Text>
+				</View>
+			</>
+		);
+	};
 
 	return (
 		<Card elevation={2} style={styles.card}>
 			<Card.Title
-				title={titulo}
-				subtitle='Fecha de viaje'
-				left={FlexdateIcon}
+				title={title}
+				subtitle={subtitle}
+				left={(props) => (
+					<RoundedIcon {...props} icon={headerIcon} iconSource={iconSource} />
+				)}
 			/>
 			<Card.Content>
 				<Divider />
+				{message && <Paragraph>{message}</Paragraph>}
 				<Separador />
-				<TouchableRipple onPress={showDatepicker} style={styles.twoColumnData}>
-					{/* <TwoColumnButton leftName='Desde: ' rightValue={dateStringFrom} /> */}
-				</TouchableRipple>
-
-				<TouchableRipple style={[styles.twoColumnData, styles.inputDisabled]}>
-					{/* <TwoColumnButton leftName='Hasta: ' rightValue={dateStringTo} /> */}
-				</TouchableRipple>
+				{dateFrom && (
+					<TouchableRipple style={styles.twoColumnData}>
+						<TwoColumnButton leftName='Desde: ' rightValue={dateFrom} />
+					</TouchableRipple>
+				)}
+				{dateTo && (
+					<TouchableRipple style={styles.twoColumnData}>
+						<TwoColumnButton leftName='Hasta: ' rightValue={dateTo} />
+					</TouchableRipple>
+				)}
 
 				<Separador />
 
-				<Button
-					raised
-					mode={'contained'}
-					onPress={() =>
-						sendFlexDates(
-							voucherStorageData.reservaId,
-							dateStringFrom,
-							dateStringTo
-						)
-					}
-				>
-					ENVIAR
-				</Button>
+				{button && (
+					<Button
+						raised
+						mode={'contained'}
+						onPress={() =>
+							sendFlexDates(
+								voucherStorageData.reservaId,
+								dateStringFrom,
+								dateStringTo
+							)
+						}
+					>
+						REINTENTAR
+					</Button>
+				)}
 			</Card.Content>
 		</Card>
-	);
-}
-
-export function CasoDos() {
-	return (
-		<View style={styles.card}>
-			<Text>PRUEBA CasoDos</Text>
-		</View>
 	);
 }
 
@@ -99,5 +125,17 @@ const styles = StyleSheet.create({
 	},
 	separador: {
 		marginBottom: 10,
+	},
+	iconWrap: {
+		backgroundColor: 'green',
+		borderRadius: 20,
+		width: 40,
+		height: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	icon: {
+		color: 'white',
+		fontSize: 22,
 	},
 });

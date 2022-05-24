@@ -1,6 +1,6 @@
 import { API_HOST } from '../utils/constants';
 
-export async function flexDates(reservationId, dateFrom, dateTo) {
+export async function sendFlexates(reservationId, dateFrom, dateTo) {
 	try {
 		console.log(
 			'flexDate() / reservationId, dateFrom, dateTo :',
@@ -23,7 +23,7 @@ export async function flexDates(reservationId, dateFrom, dateTo) {
 		// 	respuesta: 'El cambio no ha podido ser registrado correctamente, comuníquese con ventas@assist-med.net',
 		// };
 
-		// console.log('%c // flexDates / result: ', 'color: #008080', result);
+		console.log('%c // flexDates / result: ', 'color: #008080', result);
 		return result;
 	} catch (error) {
 		throw error;
