@@ -297,7 +297,8 @@ export default function FechasFlexiblesScreen() {
 							screen='success'
 							title='Felicitaciones Viajer@'
 							subtitle='Cambio realizado!'
-							headerIcon='folder'
+							headerIcon='check'
+							iconSource='Entypo'
 							message={confirmTransaction.message}
 							dateFrom='0000-00-00'
 							dateTo='0000-00-00'
@@ -309,6 +310,8 @@ export default function FechasFlexiblesScreen() {
 							screen='reject'
 							title='Lo sentimos!'
 							subtitle='Cambio rechazado'
+							headerIcon='close'
+							iconSource='AntDesign'
 							message={confirmTransaction.message}
 							button={true}
 						/>
@@ -319,6 +322,8 @@ export default function FechasFlexiblesScreen() {
 							screen='error'
 							title='Lo sentimos!'
 							subtitle='Ocurrio un error'
+							headerIcon='warning'
+							iconSource='Ionicons'
 							message='Lo sentimos. Ocurrio un error. Por favor, vuelva a intentarlo más tarde o comuníquese con nosotros para asistirlo.'
 							button={true}
 						/>
@@ -375,8 +380,8 @@ export default function FechasFlexiblesScreen() {
 						screen='noflex'
 						title='No disponible'
 						subtitle='Lo sentimos'
-						headerIcon='error-outline'
-						iconSource='MaterialIcons'
+						headerIcon='warning'
+						iconSource='Ionicons'
 						message={`La reserva ${voucherStorageData.reservaId} no dispone de cambio de fechas.`}
 					/>
 				</View>
