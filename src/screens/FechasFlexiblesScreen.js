@@ -28,7 +28,6 @@ import { CardFlexCases } from './partials/CasesFechasFlexibles';
 import { RoundedIcon } from '../components/RoundedIcon';
 
 export default function FechasFlexiblesScreen() {
-	console.log('/RENDERIZADO GENERAL');
 	const { voucherStorageData, updateVoucherStorage } = useContext(AuthContext);
 
 	const dataDateFrom = voucherStorageData.fechaSalida;
@@ -72,22 +71,13 @@ export default function FechasFlexiblesScreen() {
 	);
 	const [show, setShow] = useState(false);
 
-	// console.log(
-	// 	'****** Renderizado general / useState / currentDate: ',
-	// 	currentDate
-	// );
-	// console.log('****** Renderizado general / useState / dateFrom: ', dateFrom);
-	// console.log('****** Renderizado general / useState / dateTo: ', dateTo);
 
 	const onChange = (event, date) => {
 		if (date != undefined) {
-			console.log('-Entro onChange() / selectedDate: ', selectedDate);
+
 			const selectedDate = date;
 			let choosendDate = selectedDate;
 			let choosendDatePlusDays = sumarDias(selectedDate, dataDays);
-
-			// console.log('---onChange() / choosendDate: ', choosendDate);
-			// console.log('---onChange() / choosendDatePlusDays: ', choosendDatePlusDays);
 
 			setShow(false);
 			setCurrentDate(selectedDate);
@@ -100,30 +90,11 @@ export default function FechasFlexiblesScreen() {
 		}
 	};
 
-	// console.log(
-	// 	'%c currentDate: ',
-	// 	'color: #478B20; background: #E7FFD9',
-	// 	currentDate
-	// );
-	// console.log('%c dateFrom: ', 'color: #478B20; background: #E7FFD9', dateFrom);
-	// console.log('%c dateTo: ', 'color: #478B20; background: #E7FFD9', dateTo);
-
-	// const iosSelectDate = () => {
-	// 	setShow(false);
-	// };
 
 	const sendFlexDates = async (reservaId, dateStringFrom, dateStringTo) => {
-		// console.log(
-		// 	'==== sendFlexDate() / reservaId, dateStringFrom, dateStringTo: ',
-		// 	reservaId,
-		// 	dateStringFrom,
-		// 	dateStringTo
-		// );
 		const responseDataApi = await sendFlexates(reservaId, dateStringFrom, dateStringTo);
-		console.log('sendFlexDates() / responseDataApi :', responseDataApi.status);
 
 		if (responseDataApi.status == 'ok') {
-			console.log('entro OK');
 			setConfirmTransaction({
 				...confirmTransaction,
 				screen: 'success',
@@ -131,7 +102,6 @@ export default function FechasFlexiblesScreen() {
 				message: responseDataApi.respuesta,
 			});
 		} else if (responseDataApi.error != undefined) {
-			console.log('entro ELSEIF');
 			setConfirmTransaction({
 				...confirmTransaction,
 				screen: 'reject',
@@ -139,7 +109,6 @@ export default function FechasFlexiblesScreen() {
 				message: responseDataApi.error,
 			});
 		} else if (responseDataApi.status == 'error') {
-			console.log('entro ELSEIF');
 			setConfirmTransaction({
 				...confirmTransaction,
 				screen: 'error',
@@ -255,18 +224,6 @@ export default function FechasFlexiblesScreen() {
 						<Text style={{ color: 'red' }}>
 							{/* Fecha seleccionada: {formatDate(dateFrom, 'date', 'string')} */}
 						</Text>
-						{console.log('FECHA MAXIMA: ', formatDate(dataLimit, 'string', 'date'))}
-						{console.log(
-							'FECHA MAXIMA: ',
-							restarDias(
-								formatDate(
-									formatDate(dataLimit, 'string', 'date'),
-									'string',
-									'date'
-								),
-								dataDays - 1
-							)
-						)}
 						{show && (
 							<>
 								<DateTimePicker
@@ -358,19 +315,13 @@ export default function FechasFlexiblesScreen() {
 				Show Dialog
 			</Button> */}
 
-					{/* <Button
-				raised
-				onPress={() => sendFlexDates('1013632', '2022-07-01', '2022-07-05')}
-			>
-				PRUEBA
-			</Button> */}
+					<Button
+						raised
+						onPress={() => sendFlexDates('1013632', '2022-07-05', '2022-07-09')}
+					>
+						PRUEBA
+					</Button>
 
-					{/* <Button
-				raised
-				onPress={() => formatDate(new Date('2022-05-10'), 'date', 'date')}
-			>
-				PRUEBA
-			</Button> */}
 				</View>
 			}
 
