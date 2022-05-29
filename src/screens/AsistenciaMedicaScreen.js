@@ -17,23 +17,19 @@ import {
 } from 'react-native-paper';
 import { AuthContext } from '../context/AuthContext';
 import { openExternalLink } from '../services/openExternalLink';
+import { RoundedIcon } from '../components/RoundedIcon';
 
 const PhoneCard = (props) => {
 	const { phone } = props;
 
 	return (
 		<View style={{ flexDirection: 'row', marginTop: 10 }}>
+			<View style={{ flex: 1 }}>
+				<RoundedIcon {...props} icon={phone.icon} iconSource={phone.iconSource} />
+			</View>
 			<View style={{ flex: 4 }}>
 				<Text>{phone.key}</Text>
 				<Title>{phone.value}</Title>
-			</View>
-			<View style={{ flex: 1 }}>
-				<IconButton
-					style={{ backgroundColor: '#f7f7f7' }}
-					icon={phone.icon}
-					// color={'green'}
-					size={25}
-				/>
 			</View>
 
 			{/* <List.Item
@@ -50,19 +46,8 @@ const PhoneCard = (props) => {
 export default function ScreenAsistenciaMedica() {
 	const { voucherStorageData } = useContext(AuthContext);
 
-	// console.log(
-	// 	'%c AsistenciaMedicaScreen / voucherStorageData: ',
-	// 	'color: #478B20; background: #E7FFD9',
-	// 	voucherStorageData
-	// );
-
-	// const MapParagraph = voucherStorageData.notes.map((paragraph) => (
-	// 	<Text>{paragraph.value}</Text>
-	// ));
-
 	return (
 		<ScrollView style={styles.container}>
-			{/* <MapParagraph /> */}
 			<Card elevation={2} style={styles.card}>
 				<Card.Content>
 					<Title>Procedimiento para el uso de tu asistencia</Title>

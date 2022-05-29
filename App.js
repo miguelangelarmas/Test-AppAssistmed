@@ -20,9 +20,7 @@ import {
 	Provider as PaperProvider,
 } from 'react-native-paper';
 import LoginScreen from './src/screens/LoginScreen';
-import react from 'react';
 import { AuthContext } from './src/context/AuthContext';
-import voucherStorageData from './src/model/voucherStorageData.json';
 import MenuScreen from './src/screens/MenuScreen';
 
 const Stack = createStackNavigator();
@@ -57,7 +55,7 @@ const theme = {
 	},
 };
 
-const dummyVoucherStorageData = JSON.parse(JSON.stringify(voucherStorageData));
+
 
 export default function App() {
 	const initialLoginState = {
@@ -106,12 +104,15 @@ export default function App() {
 	);
 
 	const [storageVoucher, setStorageVoucher] = useState(null);
+	const [storageFlexdates, setStorageFlexdates] = useState([]);
 
 	const authDataContext = useMemo(() => ({
 		voucherStorageData: storageVoucher,
+		flexdatesStorageData: storageFlexdates,
 		signIn: async (validResponse, responseDataApi) => {
 			const authSignIn = validResponse;
 			setStorageVoucher(responseDataApi);
+			setStorageFlexdates({ dateFrom: responseDataApi.fechaSalida, dateTo: responseDataApi.fechaRegreso });
 			try {
 				await AsyncStorage.setItem('authSignIn', authSignIn);
 			} catch (e) {
@@ -133,12 +134,12 @@ export default function App() {
 			}
 			dispatch({ type: 'LOGOUT' });
 		},
-		updateVoucherStorage: async (newFlexdateVoucher) => {
+		updateVoucherStorage: async (newDateFrom, newDateTo) => {
 			console.log(
-				'APP.JS / updateVoucherStorage() / newFlexdateVoucher: ',
-				newFlexdateVoucher
+				'APP.JS / updateVoucherStorage() / newFlexdates: ',
+				newDateFrom, newDateTo
 			);
-			setStorageVoucher(newFlexdateVoucher);
+			setStorageFlexdates({ dateFrom: newDateFrom, dateTo: newDateTo });
 		},
 	}));
 
@@ -152,6 +153,7 @@ export default function App() {
 				const responseDataApi = await getVoucherApi(authSignIn);
 				if (responseDataApi.error === false) {
 					setStorageVoucher(responseDataApi);
+					setStorageFlexdates({ dateFrom: responseDataApi.fechaSalida, dateTo: responseDataApi.fechaRegreso });
 					varSignedIn = true;
 				}
 			} catch (error) {

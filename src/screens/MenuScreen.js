@@ -16,6 +16,7 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AuthContext } from '../context/AuthContext';
 import { openExternalLink } from '../services/openExternalLink';
+import { RoundedIcon } from '../components/RoundedIcon';
 
 export default function MenuScreen(props) {
 	const { signOut } = useContext(AuthContext);
@@ -40,7 +41,9 @@ export default function MenuScreen(props) {
 				return (
 					<Drawer.Item
 						key={i}
-						// icon={item.icon}
+						icon={(props) => (
+							<RoundedIcon {...props} icon={item.icon} iconSource={item.iconSource} />
+						)}
 						label={item.key}
 						onPress={() => openExternalLink(item.type, item.value)}
 					/>

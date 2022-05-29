@@ -10,17 +10,17 @@ import {
 	Paragraph,
 	Divider,
 } from 'react-native-paper';
-
 import { AuthContext } from '../context/AuthContext';
+import { formatDate } from '../services/formatDate';
 
 export default function MiCoberturaVouchersScreen() {
-	const { voucherStorageData } = useContext(AuthContext);
+	const { voucherStorageData, flexdatesStorageData } = useContext(AuthContext);
 
-	// console.log(
-	// 	'%c MiCoberturaScreen / AuthContext: ',
-	// 	'color: #478B20; background: #E7FFD9',
-	// 	voucherStorageData
-	// );
+	console.log(
+		'%c MiCoberturaScreen / flexdatesStorageData: ',
+		'color: #478B20; background: #E7FFD9',
+		flexdatesStorageData
+	);
 
 	const VouchersIcon = (props) => (
 		<Avatar.Icon {...props} icon='file-document' />
@@ -59,13 +59,13 @@ export default function MiCoberturaVouchersScreen() {
 					<Separador />
 
 					<Paragraph>
-						Fecha de salida: {voucherStorageData.fechaSalida}
+						Fecha de salida: {formatDate(flexdatesStorageData.dateFrom, 'string', 'text')}
 					</Paragraph>
 					<Paragraph>
-						Fecha de regreso: {voucherStorageData.fechaRegreso}
+						Fecha de regreso: {formatDate(flexdatesStorageData.dateTo, 'string', 'text')}
 					</Paragraph>
 					<Paragraph>
-						Fecha de reserva: {voucherStorageData.fechaEmision}
+						Fecha de reserva: {formatDate(voucherStorageData.fechaEmision, 'string', 'text')}
 					</Paragraph>
 
 					<Separador />

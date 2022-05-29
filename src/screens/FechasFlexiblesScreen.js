@@ -28,10 +28,10 @@ import { CardFlexCases } from './partials/CasesFechasFlexibles';
 import { RoundedIcon } from '../components/RoundedIcon';
 
 export default function FechasFlexiblesScreen() {
-	const { voucherStorageData, updateVoucherStorage } = useContext(AuthContext);
+	const { voucherStorageData, updateVoucherStorage, flexdatesStorageData } = useContext(AuthContext);
 
-	const dataDateFrom = voucherStorageData.fechaSalida;
-	const dataDateTo = voucherStorageData.fechaRegreso;
+	const dataDateFrom = flexdatesStorageData.fechaSalida;
+	const dataDateTo = flexdatesStorageData.fechaRegreso;
 	const dataNewDateFrom = dataDateFrom;
 	const dataNewDateTo = dataDateTo;
 	const dataLimit = voucherStorageData.fechaLimite;
@@ -53,10 +53,10 @@ export default function FechasFlexiblesScreen() {
 	});
 
 	const [dateStringFrom, setDateStringFrom] = useState(
-		voucherStorageData.fechaSalida
+		flexdatesStorageData.dateFrom
 	);
 	const [dateStringTo, setDateStringTo] = useState(
-		voucherStorageData.fechaRegreso
+		flexdatesStorageData.dateTo
 	);
 
 	const [currentDate, setCurrentDate] = useState(
@@ -101,6 +101,9 @@ export default function FechasFlexiblesScreen() {
 				status: 'ok',
 				message: responseDataApi.respuesta,
 			});
+			updateVoucherStorage(responseDataApi.detalleReserva.fechaSalida, responseDataApi.detalleReserva.fechaRegreso);
+			setDateStringFrom(responseDataApi.detalleReserva.fechaSalida);
+			setDateStringTo(responseDataApi.detalleReserva.fechaRegreso);
 		} else if (responseDataApi.error != undefined) {
 			setConfirmTransaction({
 				...confirmTransaction,
@@ -116,7 +119,7 @@ export default function FechasFlexiblesScreen() {
 				message: responseDataApi.respuesta,
 			});
 		}
-		// updateVoucherStorage(responseDataApi);
+
 	};
 
 	const showDatepicker = () => {
@@ -192,13 +195,13 @@ export default function FechasFlexiblesScreen() {
 									onPress={showDatepicker}
 									style={styles.twoColumnData}
 								>
-									<TwoColumnButton leftName='Desde: ' rightValue={dateStringFrom} />
+									<TwoColumnButton leftName='Desde: ' rightValue={formatDate(dateStringFrom, 'string', 'text')} />
 								</TouchableRipple>
 
 								<TouchableRipple
 									style={[styles.twoColumnData, styles.inputDisabled]}
 								>
-									<TwoColumnButton leftName='Hasta: ' rightValue={dateStringTo} />
+									<TwoColumnButton leftName='Hasta: ' rightValue={formatDate(dateStringTo, 'string', 'text')} />
 								</TouchableRipple>
 
 								<Separador />
@@ -257,8 +260,8 @@ export default function FechasFlexiblesScreen() {
 							headerIcon='check'
 							iconSource='Entypo'
 							message={confirmTransaction.message}
-							dateFrom='0000-00-00'
-							dateTo='0000-00-00'
+							dateFrom={formatDate(dateStringFrom, 'string', 'text')}
+							dateTo={formatDate(dateStringTo, 'string', 'text')}
 						/>
 					)}
 
@@ -317,10 +320,16 @@ export default function FechasFlexiblesScreen() {
 
 					<Button
 						raised
-						onPress={() => sendFlexDates('1013632', '2022-07-05', '2022-07-09')}
+						onPress={() => sendFlexDates('1000185', '2022-07-05', '2022-07-08')}
 					>
-						PRUEBA
+						PRUEBA FECHA HARCODEADA
 					</Button>
+					{/* <Button
+						raised
+						onPress={() => formatDate(new Date('2022-05-31'), 'date', 'text')}
+					>
+						PRUEBA FORMAT DATE
+					</Button> */}
 
 				</View>
 			}

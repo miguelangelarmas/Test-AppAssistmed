@@ -4,7 +4,7 @@ import { AntDesign, Ionicons, Feather, Entypo } from '@expo/vector-icons';
 
 const styles = StyleSheet.create({
 	iconWrap: {
-		backgroundColor: 'green',
+		backgroundColor: '#0D559E',
 		borderRadius: 20,
 		width: 40,
 		height: 40,
@@ -31,6 +31,9 @@ export const RoundedIcon = (props) => (
 		)}
 		{props.iconSource == 'Entypo' && (
 			<Entypo style={styles.icon} name={props.icon} />
+		)}
+		{(props.iconSource == undefined || props.icon == undefined) && (
+			<AntDesign style={styles.icon} name={'right'} />
 		)}
 	</View>
 );
