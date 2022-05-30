@@ -31,6 +31,7 @@ export function CardFlexCases(props) {
 		headerIcon,
 		iconSource,
 		button,
+		callbackBtnRetry
 	} = props;
 
 	const TwoColumnButton = (props) => {
@@ -46,18 +47,22 @@ export function CardFlexCases(props) {
 		);
 	};
 
+
+
+
+
 	return (
 		<Card elevation={2} style={styles.card}>
 			<Card.Title
 				title={title}
 				subtitle={subtitle}
 				left={(props) => (
-					<RoundedIcon {...props} icon={headerIcon} iconSource={iconSource} />
+					<RoundedIcon {...props} style={props.leftStyle} icon={headerIcon} iconSource={iconSource} />
 				)}
 			/>
 			<Card.Content>
 				<Divider />
-				{message && <Paragraph>{message}</Paragraph>}
+				{message && <Subheading style={styles.message}>{message}</Subheading>}
 				<Separador />
 				{dateFrom && (
 					<TouchableRipple style={styles.twoColumnData}>
@@ -76,15 +81,9 @@ export function CardFlexCases(props) {
 					<Button
 						raised
 						mode={'contained'}
-						onPress={() =>
-							sendFlexDates(
-								voucherStorageData.reservaId,
-								dateStringFrom,
-								dateStringTo
-							)
-						}
+						onPress={callbackBtnRetry}
 					>
-						REINTENTAR
+						Reintentar
 					</Button>
 				)}
 			</Card.Content>
@@ -108,8 +107,14 @@ const styles = StyleSheet.create({
 		height: 45,
 		alignItems: 'center',
 	},
+	title: {
+		color: 'red',
+	},
 	column: {
 		flexGrow: 1,
+	},
+	message: {
+		marginTop: 15
 	},
 	text: {
 		fontSize: 18,

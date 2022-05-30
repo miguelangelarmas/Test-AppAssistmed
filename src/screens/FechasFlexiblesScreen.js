@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { sendFlexates } from '../services/sendFlexates';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -29,6 +29,7 @@ import { RoundedIcon } from '../components/RoundedIcon';
 
 export default function FechasFlexiblesScreen() {
 	const { voucherStorageData, updateVoucherStorage, flexdatesStorageData } = useContext(AuthContext);
+	const [loaderState, setLoaderState] = useState(false);
 
 	const dataDateFrom = flexdatesStorageData.fechaSalida;
 	const dataDateTo = flexdatesStorageData.fechaRegreso;
@@ -49,7 +50,7 @@ export default function FechasFlexiblesScreen() {
 		// screen: 'datepicker',
 		screen: 'datepicker',
 		status: null,
-		message: 'aca va el texto de confirmacion que tu me',
+		message: null,
 	});
 
 	const [dateStringFrom, setDateStringFrom] = useState(
@@ -92,6 +93,7 @@ export default function FechasFlexiblesScreen() {
 
 
 	const sendFlexDates = async (reservaId, dateStringFrom, dateStringTo) => {
+		setLoaderState(true);
 		const responseDataApi = await sendFlexates(reservaId, dateStringFrom, dateStringTo);
 
 		if (responseDataApi.status == 'ok') {
@@ -102,14 +104,29 @@ export default function FechasFlexiblesScreen() {
 				message: responseDataApi.respuesta,
 			});
 			updateVoucherStorage(responseDataApi.detalleReserva.fechaSalida, responseDataApi.detalleReserva.fechaRegreso);
-			setDateStringFrom(responseDataApi.detalleReserva.fechaSalida);
-			setDateStringTo(responseDataApi.detalleReserva.fechaRegreso);
+
+			if (responseDataApi.detalleReserva.fechaSalida) {
+				setDateStringFrom(responseDataApi.detalleReserva.fechaSalida);
+				setDateStringTo(responseDataApi.detalleReserva.fechaRegreso);
+			} else {
+				setDateStringFrom(responseDataApi.fechaSalida);
+				setDateStringTo(responseDataApi.fechaRegreso);
+			}
+
 		} else if (responseDataApi.error != undefined) {
 			setConfirmTransaction({
 				...confirmTransaction,
 				screen: 'reject',
 				status: 'ko',
 				message: responseDataApi.error,
+			});
+		} else if (responseDataApi.error === undefined && responseDataApi.message) {
+			//caso reservas antiguas 
+			setConfirmTransaction({
+				...confirmTransaction,
+				screen: 'reject',
+				status: 'ko',
+				message: responseDataApi.message,
 			});
 		} else if (responseDataApi.status == 'error') {
 			setConfirmTransaction({
@@ -119,6 +136,7 @@ export default function FechasFlexiblesScreen() {
 				message: responseDataApi.respuesta,
 			});
 		}
+		setLoaderState(false);
 
 	};
 
@@ -148,8 +166,22 @@ export default function FechasFlexiblesScreen() {
 		);
 	};
 
+	const getcallbackBtnRetry = () => {
+		setConfirmTransaction({
+			...confirmTransaction,
+			screen: 'datepicker'
+		});
+	}
+
+	if (loaderState) {
+		return (
+			<ActivityIndicator style={styles.loader} size='large' color='#33569A' />
+		);
+	}
+
 	return (
 		<ScrollView style={styles.container}>
+
 			<Title>Puedes cambiarlas cuando quieras</Title>
 			<Paragraph style={styles.flexdateParagraph}>
 				Recuerda que tienes un año para hacerlo, las veces que quieras sin
@@ -157,10 +189,6 @@ export default function FechasFlexiblesScreen() {
 			</Paragraph>
 
 			{/* <View
-				style={{
-					padding: 10,
-					backgroundColor: '#ffebd6',
-				}}
 			>
 				<Text>Fecha salida: {dataDateFrom}</Text>
 				<Text>Fecha regreso: {dataDateTo}</Text>
@@ -171,9 +199,6 @@ export default function FechasFlexiblesScreen() {
 			</View> */}
 			{dataIsFlex &&
 				<View>
-
-
-
 					{confirmTransaction.screen === 'datepicker' && (
 						<Card elevation={2} style={styles.card}>
 							<Card.Title
@@ -262,6 +287,8 @@ export default function FechasFlexiblesScreen() {
 							message={confirmTransaction.message}
 							dateFrom={formatDate(dateStringFrom, 'string', 'text')}
 							dateTo={formatDate(dateStringTo, 'string', 'text')}
+							button={true}
+							callbackBtnRetry={() => getcallbackBtnRetry()}
 						/>
 					)}
 
@@ -274,6 +301,7 @@ export default function FechasFlexiblesScreen() {
 							iconSource='AntDesign'
 							message={confirmTransaction.message}
 							button={true}
+							callbackBtnRetry={() => getcallbackBtnRetry()}
 						/>
 					)}
 
@@ -286,6 +314,7 @@ export default function FechasFlexiblesScreen() {
 							iconSource='Ionicons'
 							message='Lo sentimos. Ocurrio un error. Por favor, vuelva a intentarlo más tarde o comuníquese con nosotros para asistirlo.'
 							button={true}
+							callbackBtnRetry={() => getcallbackBtnRetry()}
 						/>
 					)}
 
@@ -318,12 +347,12 @@ export default function FechasFlexiblesScreen() {
 				Show Dialog
 			</Button> */}
 
-					<Button
+					{/* <Button
 						raised
-						onPress={() => sendFlexDates('1000185', '2022-07-05', '2022-07-08')}
+						onPress={() => sendFlexDates('339130', '2020-07-02', '2020-07-08')}
 					>
 						PRUEBA FECHA HARCODEADA
-					</Button>
+					</Button> */}
 					{/* <Button
 						raised
 						onPress={() => formatDate(new Date('2022-05-31'), 'date', 'text')}
@@ -355,6 +384,12 @@ const styles = StyleSheet.create({
 		backgroundColor: '#f9f9f9',
 		flex: 1,
 		padding: 15,
+	},
+	loader: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#33569a1c',
 	},
 	card: {
 		marginBottom: 25,
