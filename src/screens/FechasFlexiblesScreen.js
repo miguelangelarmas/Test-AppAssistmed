@@ -47,7 +47,6 @@ export default function FechasFlexiblesScreen() {
 	const [visible, setVisible] = React.useState(false);
 
 	const [confirmTransaction, setConfirmTransaction] = React.useState({
-		// screen: 'datepicker',
 		screen: 'datepicker',
 		status: null,
 		message: null,
@@ -96,6 +95,8 @@ export default function FechasFlexiblesScreen() {
 		setLoaderState(true);
 		const responseDataApi = await sendFlexates(reservaId, dateStringFrom, dateStringTo);
 
+		console.log("responseDataApi ", responseDataApi)
+
 		if (responseDataApi.status == 'ok') {
 			setConfirmTransaction({
 				...confirmTransaction,
@@ -134,6 +135,13 @@ export default function FechasFlexiblesScreen() {
 				screen: 'error',
 				status: 'error',
 				message: responseDataApi.respuesta,
+			});
+		} else {
+			setConfirmTransaction({
+				...confirmTransaction,
+				screen: 'error',
+				status: 'error',
+				message: 'Ocurrio un error. Por favor, vuelva a intentarlo más tarde.',
 			});
 		}
 		setLoaderState(false);
@@ -188,32 +196,26 @@ export default function FechasFlexiblesScreen() {
 				penalidades ni cambio de tarifa. Solo te queda disfrutar!
 			</Paragraph>
 
-			{/* <View
-			>
-				<Text>Fecha salida: {dataDateFrom}</Text>
-				<Text>Fecha regreso: {dataDateTo}</Text>
-				<Text>Cantidad de días: {dataDays} </Text>
-				<Text>Fecha emision: {dataDateEmision}</Text>
-				<Text>Fecha máxima: {dataLimit} </Text>
-				<Text>Flexible: {dataIsFlex ? 'Si' : 'No'}</Text>
-			</View> */}
 			{dataIsFlex &&
 				<View>
 					{confirmTransaction.screen === 'datepicker' && (
 						<Card elevation={2} style={styles.card}>
 							<Card.Title
 								title='Seleccionar'
-								subtitle='Fecha de viaje'
+								subtitle='Nuevas fechas'
 								left={(props) => (
 									<RoundedIcon
 										{...props}
 										icon='calendar'
 										iconSource='Ionicons'
-										color='red'
+										color='#0D559E'
 									/>
 								)}
 							/>
 							<Card.Content>
+								<Text>Fecha máxima: {formatDate(dataLimit, 'string', 'text')} </Text>
+								<Text>Cantidad de días: {dataDays} </Text>
+								<Separador />
 								<Divider />
 								<Separador />
 								<TouchableRipple
@@ -282,12 +284,14 @@ export default function FechasFlexiblesScreen() {
 							screen='success'
 							title='Felicitaciones Viajer@'
 							subtitle='Cambio realizado!'
+							iconColor='#008000'
 							headerIcon='check'
 							iconSource='Entypo'
 							message={confirmTransaction.message}
 							dateFrom={formatDate(dateStringFrom, 'string', 'text')}
 							dateTo={formatDate(dateStringTo, 'string', 'text')}
 							button={true}
+							buttonText='Realizar nuevo cambio'
 							callbackBtnRetry={() => getcallbackBtnRetry()}
 						/>
 					)}
@@ -297,10 +301,12 @@ export default function FechasFlexiblesScreen() {
 							screen='reject'
 							title='Lo sentimos!'
 							subtitle='Cambio rechazado'
+							iconColor='#ffa500'
 							headerIcon='close'
 							iconSource='AntDesign'
 							message={confirmTransaction.message}
 							button={true}
+							buttonText='Reintentar'
 							callbackBtnRetry={() => getcallbackBtnRetry()}
 						/>
 					)}
@@ -310,10 +316,12 @@ export default function FechasFlexiblesScreen() {
 							screen='error'
 							title='Lo sentimos!'
 							subtitle='Ocurrio un error'
+							iconColor='#b5b5b5'
 							headerIcon='warning'
 							iconSource='Ionicons'
-							message='Lo sentimos. Ocurrio un error. Por favor, vuelva a intentarlo más tarde o comuníquese con nosotros para asistirlo.'
+							message={confirmTransaction.message}
 							button={true}
+							buttonText='Reintentar'
 							callbackBtnRetry={() => getcallbackBtnRetry()}
 						/>
 					)}

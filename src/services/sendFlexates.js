@@ -26,6 +26,6 @@ export async function sendFlexates(reservationId, dateFrom, dateTo) {
 		console.log('%c // flexDates / result: ', 'color: #008080', result);
 		return result;
 	} catch (error) {
-		throw error;
+		return "error";
 	}
 }

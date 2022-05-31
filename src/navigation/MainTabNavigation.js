@@ -34,7 +34,7 @@ function TabsNavigator() {
 	return (
 		<Tab.Navigator
 			barStyle={styles.navigatorTab}
-			initialRouteName={'Flexibles'}
+			initialRouteName={'Cobertura'}
 		>
 			<Tab.Screen
 				style={styles.navigatorTab}

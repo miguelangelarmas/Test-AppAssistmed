@@ -48,11 +48,17 @@ export default function LoginScreen({ navigation }) {
 
 			if (responseDataApi.error === false) {
 				validResponse = docNum;
+			} else if (responseDataApi.error === true) {
+				validResponse = '';
+				setError(true);
+				setErrorMesagge(
+					responseDataApi.description
+				);
 			} else {
 				validResponse = '';
 				setError(true);
 				setErrorMesagge(
-					'No encontramos cobertura asociada al número de documento.'
+					'Ocurrio un error. Por favor, vuelva a intentalo más tarde.'
 				);
 			}
 			signIn(validResponse, responseDataApi);

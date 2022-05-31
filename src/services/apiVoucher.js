@@ -11,7 +11,7 @@ export async function getVoucherApi(docNum) {
 		console.log('%c // getVoucherApi', 'color: #008080');
 		return result;
 	} catch (error) {
-		throw error;
+		return error;
 	}
 }
 
@@ -21,7 +21,7 @@ export async function storageVoucherApi() {
 		await AsyncStorage.setItem(VOUCHER_STORAGE, JSON.stringify(apiVoucher));
 		console.log('%c // storageVoucherApi', 'color: #008080');
 	} catch (error) {
-		throw error;
+		return error;
 	}
 }
 
@@ -33,6 +33,6 @@ export async function getDataStorage() {
 			console.log('%c // getDataStorage', 'color: #008080', dataStorage);
 		}
 	} catch (e) {
-		// error reading value
+		return error;
 	}
 }

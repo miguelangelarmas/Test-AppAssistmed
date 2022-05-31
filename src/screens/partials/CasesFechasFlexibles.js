@@ -28,9 +28,11 @@ export function CardFlexCases(props) {
 		message,
 		dateFrom,
 		dateTo,
+		iconColor,
 		headerIcon,
 		iconSource,
 		button,
+		buttonText,
 		callbackBtnRetry
 	} = props;
 
@@ -54,10 +56,11 @@ export function CardFlexCases(props) {
 	return (
 		<Card elevation={2} style={styles.card}>
 			<Card.Title
+				titleStyle={{ color: (iconColor ? iconColor : '#424242') }}
 				title={title}
 				subtitle={subtitle}
 				left={(props) => (
-					<RoundedIcon {...props} style={props.leftStyle} icon={headerIcon} iconSource={iconSource} />
+					<RoundedIcon {...props} style={props.leftStyle} icon={headerIcon} iconSource={iconSource} color={iconColor} />
 				)}
 			/>
 			<Card.Content>
@@ -65,12 +68,12 @@ export function CardFlexCases(props) {
 				{message && <Subheading style={styles.message}>{message}</Subheading>}
 				<Separador />
 				{dateFrom && (
-					<TouchableRipple style={styles.twoColumnData}>
+					<TouchableRipple style={[styles.twoColumnData, styles.inputDisabled]}>
 						<TwoColumnButton leftName='Desde: ' rightValue={dateFrom} />
 					</TouchableRipple>
 				)}
 				{dateTo && (
-					<TouchableRipple style={styles.twoColumnData}>
+					<TouchableRipple style={[styles.twoColumnData, styles.inputDisabled]}>
 						<TwoColumnButton leftName='Hasta: ' rightValue={dateTo} />
 					</TouchableRipple>
 				)}
@@ -80,10 +83,10 @@ export function CardFlexCases(props) {
 				{button && (
 					<Button
 						raised
-						mode={'contained'}
+						mode={'outlined'}
 						onPress={callbackBtnRetry}
 					>
-						Reintentar
+						{buttonText}
 					</Button>
 				)}
 			</Card.Content>

@@ -25,7 +25,7 @@ const PhoneCard = (props) => {
 	return (
 		<View style={{ flexDirection: 'row', marginTop: 10 }}>
 			<View style={{ flex: 1 }}>
-				<RoundedIcon {...props} icon={phone.icon} iconSource={phone.iconSource} />
+				<RoundedIcon {...props} icon={phone.icon} iconSource={phone.iconSource} color='#33569A' />
 			</View>
 			<View style={{ flex: 4 }}>
 				<Text>{phone.key}</Text>
