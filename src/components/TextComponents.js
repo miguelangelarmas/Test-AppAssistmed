@@ -14,7 +14,7 @@ export const TextKeyValue = (props) => (
 
 const styles = StyleSheet.create({
 	textLine: {
-		fontSize: 16,
+		fontSize: 15,
 		color: '#424242de',
 		marginBottom: 5
 	},
