@@ -40,7 +40,7 @@ export default function MiCoberturaCoberturasScreen() {
 						return (
 							<View style={styles.item} key={key}>
 								<Divider style={styles.divider} />
-								<Subheading>{cobertura.name}</Subheading>
+								<Subheading style={{ color: '#33569A' }}>{cobertura.name}</Subheading>
 								<Text style={styles.coberturaPrecio}>
 									{cobertura.money} {cobertura.value}
 								</Text>

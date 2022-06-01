@@ -66,11 +66,6 @@ export default function App() {
 	};
 
 	const loginReducer = (prevState, action) => {
-		// console.log(
-		// 	'%c App / loginReducer: ',
-		// 	'color: #AD23BE; background: #F2D9F5',
-		// 	action
-		// );
 		switch (action.type) {
 			case 'RETRIEVE_TOKEN':
 				return {
@@ -134,11 +129,7 @@ export default function App() {
 			}
 			dispatch({ type: 'LOGOUT' });
 		},
-		updateVoucherStorage: async (newDateFrom, newDateTo) => {
-			console.log(
-				'APP.JS / updateVoucherStorage() / newFlexdates: ',
-				newDateFrom, newDateTo
-			);
+		updateFlexdatesStorage: async (newDateFrom, newDateTo) => {
 			setStorageFlexdates({ dateFrom: newDateFrom, dateTo: newDateTo });
 		},
 	}));
@@ -175,11 +166,6 @@ export default function App() {
 
 	return (
 		<>
-			{/* {console.log(
-				'%c App / RENDERED!',
-				'color: #057049; background: #D3F4CD',
-				loginState.signedIn
-			)} */}
 			<PaperProvider theme={theme}>
 				<AuthContext.Provider value={authDataContext}>
 					<NavigationContainer>

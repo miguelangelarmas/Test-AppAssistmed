@@ -12,15 +12,10 @@ import {
 } from 'react-native-paper';
 import { AuthContext } from '../context/AuthContext';
 import { formatDate } from '../services/formatDate';
+import { TextLine, TextKeyValue } from '../components/TextComponents';
 
 export default function MiCoberturaVouchersScreen() {
 	const { voucherStorageData, flexdatesStorageData } = useContext(AuthContext);
-
-	console.log(
-		'%c MiCoberturaScreen / flexdatesStorageData: ',
-		'color: #478B20; background: #E7FFD9',
-		flexdatesStorageData
-	);
 
 	const VouchersIcon = (props) => (
 		<Avatar.Icon {...props} icon='file-document' />
@@ -39,11 +34,10 @@ export default function MiCoberturaVouchersScreen() {
 							<Card.Title title='Vouchers' subtitle='' left={VouchersIcon} />
 							<Card.Content>
 								<Divider />
-								<Title>{`Nº de Voucher: ${voucher.voucherId}`}</Title>
-								<Paragraph>
-									{voucher.nombre} {voucher.apellido}
-								</Paragraph>
-								<Paragraph>Documento: {voucher.dni}</Paragraph>
+								<Title style={{ color: '#33569A' }}>{`Nº de Voucher: ${voucher.voucherId}`}</Title>
+
+								<TextLine text={`${voucher.nombre} ${voucher.apellido}`} />
+								<TextKeyValue textKey="Documento: " textValue={voucher.dni} />
 							</Card.Content>
 						</View>
 					);
@@ -53,31 +47,21 @@ export default function MiCoberturaVouchersScreen() {
 				<Card.Title title='Cobertura' subtitle='' left={CoberturaIcon} />
 				<Card.Content>
 					<Divider />
-					<Title>{voucherStorageData.producto.nombre}</Title>
-					<Paragraph>{voucherStorageData.destino}</Paragraph>
+					<Title style={{ color: '#33569A' }}>{voucherStorageData.producto.nombre}</Title>
+
+					<TextLine text={voucherStorageData.destino} />
 
 					<Separador />
 
-					<Paragraph>
-						Fecha de salida: {formatDate(flexdatesStorageData.dateFrom, 'string', 'text')}
-					</Paragraph>
-					<Paragraph>
-						Fecha de regreso: {formatDate(flexdatesStorageData.dateTo, 'string', 'text')}
-					</Paragraph>
-					<Paragraph>
-						Fecha de reserva: {formatDate(voucherStorageData.fechaEmision, 'string', 'text')}
-					</Paragraph>
+					<TextKeyValue textKey="Fecha de salida: " textValue={formatDate(flexdatesStorageData.dateFrom, 'string', 'text')} />
+					<TextKeyValue textKey="Fecha de regreso: " textValue={formatDate(flexdatesStorageData.dateTo, 'string', 'text')} />
+					<TextKeyValue textKey="Fecha de reserva: " textValue={formatDate(voucherStorageData.fechaEmision, 'string', 'text')} />
 
 					<Separador />
 
-					<Paragraph>
-						Contacto de emergencia:
-						{voucherStorageData.contactoEmergencia.nombre}
-					</Paragraph>
-					<Paragraph>
-						Teléfono de emergencia:
-						{voucherStorageData.contactoEmergencia.telefono}
-					</Paragraph>
+					<TextKeyValue textKey="Contacto de emergencia: " textValue={voucherStorageData.contactoEmergencia.nombre} />
+					<TextKeyValue textKey="Teléfono de emergencia: " textValue={voucherStorageData.contactoEmergencia.telefono} />
+
 				</Card.Content>
 			</Card>
 		</ScrollView>

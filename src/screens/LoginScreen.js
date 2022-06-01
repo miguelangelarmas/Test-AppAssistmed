@@ -67,12 +67,6 @@ export default function LoginScreen({ navigation }) {
 			setErrorMesagge('Debe ingresar un número de documento.');
 		}
 		setLoadingButton(false);
-		// console.log(
-		// 	'%c LoginScreen / loginHandle /responseDataApi : ',
-		// 	'color: #136CBF; background: #D9E7F5',
-		// 	responseDataApi,
-		// 	validResponse
-		// );
 	};
 
 	const { signIn } = useContext(AuthContext);

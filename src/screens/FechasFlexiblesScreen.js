@@ -26,9 +26,10 @@ import {
 import Separador from '../components/Separador';
 import { CardFlexCases } from './partials/CasesFechasFlexibles';
 import { RoundedIcon } from '../components/RoundedIcon';
+import { TextKeyValue } from '../components/TextComponents';
 
 export default function FechasFlexiblesScreen() {
-	const { voucherStorageData, updateVoucherStorage, flexdatesStorageData } = useContext(AuthContext);
+	const { voucherStorageData, updateFlexdatesStorage, flexdatesStorageData } = useContext(AuthContext);
 	const [loaderState, setLoaderState] = useState(false);
 
 	const dataDateFrom = flexdatesStorageData.fechaSalida;
@@ -95,8 +96,6 @@ export default function FechasFlexiblesScreen() {
 		setLoaderState(true);
 		const responseDataApi = await sendFlexates(reservaId, dateStringFrom, dateStringTo);
 
-		console.log("responseDataApi ", responseDataApi)
-
 		if (responseDataApi.status == 'ok') {
 			setConfirmTransaction({
 				...confirmTransaction,
@@ -104,14 +103,15 @@ export default function FechasFlexiblesScreen() {
 				status: 'ok',
 				message: responseDataApi.respuesta,
 			});
-			updateVoucherStorage(responseDataApi.detalleReserva.fechaSalida, responseDataApi.detalleReserva.fechaRegreso);
 
 			if (responseDataApi.detalleReserva.fechaSalida) {
 				setDateStringFrom(responseDataApi.detalleReserva.fechaSalida);
 				setDateStringTo(responseDataApi.detalleReserva.fechaRegreso);
+				updateFlexdatesStorage(responseDataApi.detalleReserva.fechaSalida, responseDataApi.detalleReserva.fechaRegreso);
 			} else {
 				setDateStringFrom(responseDataApi.fechaSalida);
 				setDateStringTo(responseDataApi.fechaRegreso);
+				updateFlexdatesStorage(responseDataApi.fechaSalida, responseDataApi.fechaRegreso);
 			}
 
 		} else if (responseDataApi.error != undefined) {
@@ -202,7 +202,7 @@ export default function FechasFlexiblesScreen() {
 						<Card elevation={2} style={styles.card}>
 							<Card.Title
 								title='Seleccionar'
-								subtitle='Nuevas fechas'
+								subtitle='Nueva fecha'
 								left={(props) => (
 									<RoundedIcon
 										{...props}
@@ -213,8 +213,9 @@ export default function FechasFlexiblesScreen() {
 								)}
 							/>
 							<Card.Content>
-								<Text>Fecha máxima: {formatDate(dataLimit, 'string', 'text')} </Text>
-								<Text>Cantidad de días: {dataDays} </Text>
+								<TextKeyValue textKey="Fecha máxima: " textValue={formatDate(dataLimit, 'string', 'text')} />
+								<TextKeyValue textKey="Cantidad de días: " textValue={dataDays} />
+
 								<Separador />
 								<Divider />
 								<Separador />
@@ -357,17 +358,10 @@ export default function FechasFlexiblesScreen() {
 
 					{/* <Button
 						raised
-						onPress={() => sendFlexDates('339130', '2020-07-02', '2020-07-08')}
+						onPress={() => sendFlexDates('340996', '2020-11-11', '2020-11-14')}
 					>
 						PRUEBA FECHA HARCODEADA
 					</Button> */}
-					{/* <Button
-						raised
-						onPress={() => formatDate(new Date('2022-05-31'), 'date', 'text')}
-					>
-						PRUEBA FORMAT DATE
-					</Button> */}
-
 				</View>
 			}
 
