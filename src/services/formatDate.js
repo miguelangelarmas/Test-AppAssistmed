@@ -68,11 +68,9 @@ export function formatDate(yourDate, inputType, outputType) {
 		} else if (outputType === 'string') {
 			return yourDate.toISOString().split('T')[0];
 		} else {
-			console.log('--- error formatDate()');
 			return 'error';
 		}
 	} catch (error) {
-		console.log('error: ', error);
-		throw error;
+		return error;
 	}
 }

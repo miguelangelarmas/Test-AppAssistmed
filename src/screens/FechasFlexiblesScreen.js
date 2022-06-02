@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView, Platform, ActivityIndicator } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { sendFlexates } from '../services/sendFlexates';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { AuthContext } from '../context/AuthContext';
 import { formatDate } from '../services/formatDate';
 import { sumarDias } from '../services/sumarDias';
@@ -11,12 +10,8 @@ import {
 	Text,
 	Card,
 	Title,
-	Subheading,
 	Divider,
-	Avatar,
-	Caption,
 	TouchableRipple,
-	Headline,
 	Button,
 	Paragraph,
 	Dialog,
@@ -34,15 +29,13 @@ export default function FechasFlexiblesScreen() {
 
 	const dataDateFrom = flexdatesStorageData.fechaSalida;
 	const dataDateTo = flexdatesStorageData.fechaRegreso;
-	const dataNewDateFrom = dataDateFrom;
-	const dataNewDateTo = dataDateTo;
 	const dataLimit = voucherStorageData.fechaLimite;
 	const dataDays = voucherStorageData.days;
 	const dataIsFlex = voucherStorageData.fechaFlexible;
-	const dataDateEmision = voucherStorageData.fechaEmision;
 
-	// const showDialog = () => setVisible(true);
-	// const hideDialog = () => setVisible(false);
+	// IOS Modal control
+	const showDialog = () => setVisible(true);
+	const hideDialog = () => setVisible(false);
 
 	// state variables :
 	const [visible, setVisible] = React.useState(false);
@@ -64,31 +57,48 @@ export default function FechasFlexiblesScreen() {
 		formatDate(voucherStorageData.fechaSalida, 'string', 'date')
 	);
 
-	const [dateFrom, setDateFrom] = useState(
-		formatDate(voucherStorageData.fechaSalida, 'string', 'date')
-	);
-	const [dateTo, setDateTo] = useState(
-		formatDate(voucherStorageData.fechaRegreso, 'string', 'date')
-	);
-	const [show, setShow] = useState(false);
+	// const [dateFrom, setDateFrom] = useState(
+	// 	formatDate(voucherStorageData.fechaSalida, 'string', 'date')
+	// );
+	// const [dateTo, setDateTo] = useState(
+	// 	formatDate(voucherStorageData.fechaRegreso, 'string', 'date')
+	// );
+	const [showDatepicker, setShowDatepicker] = useState(false);
 
-
-	const onChange = (event, date) => {
+	// Android - Onchange selected Date
+	const selectedDateAndroid = (event, date) => {
 		if (date != undefined) {
-
 			const selectedDate = date;
 			let choosendDate = selectedDate;
 			let choosendDatePlusDays = sumarDias(selectedDate, dataDays);
 
-			setShow(false);
+			setShowDatepicker(false);
 			setCurrentDate(selectedDate);
-			setDateFrom(choosendDate);
-			setDateTo(choosendDatePlusDays);
+			// setDateFrom(choosendDate);
+			// setDateTo(choosendDatePlusDays);
 			setDateStringFrom(formatDate(choosendDate, 'date', 'string'));
 			setDateStringTo(formatDate(choosendDatePlusDays, 'date', 'string'));
 		} else {
-			setShow(false);
+			setShowDatepicker(false);
 		}
+	};
+	// IOS - Onchange selected Date
+	const selectedDateIos = (event, date) => {
+		// if (currentDate != undefined) {
+		hideDialog();
+		const selectedDate = currentDate;
+		let choosendDate = selectedDate;
+		let choosendDatePlusDays = sumarDias(selectedDate, dataDays);
+
+		setShowDatepicker(false);
+		setCurrentDate(selectedDate);
+		// setDateFrom(choosendDate);
+		// setDateTo(choosendDatePlusDays);
+		setDateStringFrom(formatDate(choosendDate, 'date', 'string'));
+		setDateStringTo(formatDate(choosendDatePlusDays, 'date', 'string'));
+		// } else {
+		// 	setShowDatepicker(false);
+		// }
 	};
 
 
@@ -148,18 +158,14 @@ export default function FechasFlexiblesScreen() {
 
 	};
 
-	const showDatepicker = () => {
-		setShow(true);
+	const openDatepicker = () => {
+		setShowDatepicker(true);
 	};
 
-	const FlexdateIcon = (props) => (
-		<Avatar.Icon
-			{...props}
-			icon={({ size, color }) => (
-				<Ionicons name='calendar' size={20} color={'white'} />
-			)}
-		/>
-	);
+	const updateIosChangeDate = (event, date) => {
+		setCurrentDate(date);
+	};
+
 
 	const TwoColumnButton = (props) => {
 		return (
@@ -189,7 +195,6 @@ export default function FechasFlexiblesScreen() {
 
 	return (
 		<ScrollView style={styles.container}>
-
 			<Title>Puedes cambiarlas cuando quieras</Title>
 			<Paragraph style={styles.flexdateParagraph}>
 				Recuerda que tienes un año para hacerlo, las veces que quieras sin
@@ -220,7 +225,7 @@ export default function FechasFlexiblesScreen() {
 								<Divider />
 								<Separador />
 								<TouchableRipple
-									onPress={showDatepicker}
+									onPress={openDatepicker}
 									style={styles.twoColumnData}
 								>
 									<TwoColumnButton leftName='Desde: ' rightValue={formatDate(dateStringFrom, 'string', 'text')} />
@@ -250,35 +255,6 @@ export default function FechasFlexiblesScreen() {
 							</Card.Content>
 						</Card>
 					)}
-
-					<View>
-						<Text style={{ color: 'red' }}>
-							{/* Fecha seleccionada: {formatDate(dateFrom, 'date', 'string')} */}
-						</Text>
-						{show && (
-							<>
-								<DateTimePicker
-									minimumDate={new Date()}
-									maximumDate={restarDias(
-										formatDate(
-											formatDate(dataLimit, 'string', 'date'),
-											'string',
-											'date'
-										),
-										dataDays - 1
-									)}
-									testID='dateTimePicker'
-									value={currentDate}
-									mode='date'
-									display='default'
-									onChange={onChange}
-								/>
-								{/* <Button raised mode={'contained'} onPress={iosSelectDate}>
-							SECCIONAR
-						</Button> */}
-							</>
-						)}
-					</View>
 
 					{confirmTransaction.screen === 'success' && (
 						<CardFlexCases
@@ -327,30 +303,61 @@ export default function FechasFlexiblesScreen() {
 						/>
 					)}
 
+					<View>
+						{Platform.OS === 'android' &&
+							<>
+								{showDatepicker && (
+									<DateTimePicker
+										minimumDate={new Date()}
+										maximumDate={restarDias(
+											formatDate(
+												formatDate(dataLimit, 'string', 'date'),
+												'string',
+												'date'
+											),
+											dataDays - 1
+										)}
+										testID='dateTimePicker'
+										value={currentDate}
+										mode='date'
+										display='default'
+										onChange={selectedDateAndroid}
+									/>
+								)}
+							</>
+						}
+						{Platform.OS === 'ios' &&
+							<Portal>
+								<Dialog visible={showDatepicker} onDismiss={hideDialog}>
+									<Dialog.Title>Nueva fecha de salida</Dialog.Title>
+									<Dialog.Content>
+										<DateTimePicker
+											minimumDate={new Date()}
+											maximumDate={restarDias(
+												formatDate(
+													formatDate(dataLimit, 'string', 'date'),
+													'string',
+													'date'
+												),
+												dataDays - 1
+											)}
+											testID='dateTimePicker'
+											value={currentDate}
+											mode='date'
+											display='default'
+											onChange={updateIosChangeDate}
+										/>
+									</Dialog.Content>
+									<Dialog.Actions>
+										<Button onPress={selectedDateIos}>Done</Button>
+									</Dialog.Actions>
+								</Dialog>
+							</Portal>
+						}
+					</View>
 
 
-					{/* <Portal>
-				<Dialog visible={visible} onDismiss={hideDialog}>
-					<Dialog.Title>Nueva fecha de salida</Dialog.Title>
-					<Dialog.Content>
-						<>
-							<DateTimePicker
-								testID='dateTimePicker'
-								value={date}
-								mode={mode}
-								display='default'
-								onChange={onChange}
-							/>
-							<Button raised mode={'contained'} onPress={iosSelectDate}>
-								SECCIONAR
-							</Button>
-						</>
-					</Dialog.Content>
-					<Dialog.Actions>
-						<Button onPress={hideDialog}>Done</Button>
-					</Dialog.Actions>
-				</Dialog>
-			</Portal> */}
+
 
 					{/* <Button raised mode={'contained'} onPress={showDialog}>
 				Show Dialog
@@ -371,6 +378,7 @@ export default function FechasFlexiblesScreen() {
 						screen='noflex'
 						title='No disponible'
 						subtitle='Lo sentimos'
+						iconColor='#ffa500'
 						headerIcon='warning'
 						iconSource='Ionicons'
 						message={`La reserva ${voucherStorageData.reservaId} no dispone de cambio de fechas.`}
@@ -397,8 +405,6 @@ const styles = StyleSheet.create({
 		marginBottom: 25,
 	},
 	twoColumnData: {
-		// borderBottomColor: '#ff00ff',
-		// borderBottomWidth: 1,
 		flexDirection: 'row',
 		height: 45,
 		alignItems: 'center',

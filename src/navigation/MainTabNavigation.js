@@ -34,7 +34,7 @@ function TabsNavigator() {
 	return (
 		<Tab.Navigator
 			barStyle={styles.navigatorTab}
-			initialRouteName={'Cobertura'}
+			initialRouteName={'Flexibles'}
 		>
 			<Tab.Screen
 				style={styles.navigatorTab}
@@ -75,16 +75,6 @@ function TabsNavigator() {
 					),
 				}}
 			/>
-			{/* <Tab.Screen
-				name='Paper UI'
-				component={PaperUIComponentsNavigation}
-				options={{
-					tabBarLabel: 'Paper UI',
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons name='autorenew' color={color} size={20} />
-					),
-				}}
-			/> */}
 		</Tab.Navigator>
 	);
 }

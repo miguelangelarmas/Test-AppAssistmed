@@ -6,7 +6,6 @@ import * as WebBrowser from 'expo-web-browser';
 // const prefix = Linking.createURL('/');
 
 export function openExternalLink(type, link) {
-	console.log('openExternalLink: ', link);
 	if (type === 'webpage') {
 		WebBrowser.openBrowserAsync(link);
 	} else if (type === 'none') {
